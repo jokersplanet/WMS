@@ -1,5 +1,13 @@
 # 仓库管理系统开发文档
 
+
+
+
+
+[TOC]
+
+
+
 ## 需求分析与建模
 
 企业目前存在的问题是：信息化不足，计算机使用率低，大量的日常工作皆是手工处理，纸面处理。因此工作效率低落，企业内部沟通不及时等等问题很难克服，仓库管理不合理，不能及时根据需要调整库存，不能根据快速的调整库存。
@@ -77,7 +85,7 @@
 
 员工可以选择注销自己的账户，超级管理员可以注销员工的账户。
 
-![](img/login.png)
+<img src="img/login.png" style="zoom:50%;" />
 
 ##### 仓库管理
 
@@ -248,24 +256,93 @@ web端：页面布局清晰，颜色搭配合理，色调柔和，各页面主�
 
 ### E-R图如下
 
-![](/img/User.png)
+<img src="/img/User.png" style="zoom:50%;" />
 
-![](/img/Warehouse.png)
+<img src="/img/Warehouse.png" style="zoom:50%;" />
 
-![](/img/goods.png)
+<img src="/img/goods.png" style="zoom:50%;" />
 
-![](/img/入库.png)
+<img src="/img/入库.png" style="zoom:50%;" />
 
-![](/img/出库.png)
+<img src="/img/出库.png" style="zoom:50%;" />
 
-![](/img/报废.png)
+<img src="/img/报废.png" style="zoom:50%;" />
 
-![](/img/收入.png)
+<img src="/img/收入.png" style="zoom:50%;" />
 
-![](/img/支出.png)
+<img src="/img/支出.png" style="zoom:50%;" />
 
-![](/img/类别.png)
+<img src="/img/类别.png" style="zoom:50%;" />
 
-![](/img/department.png)
+<img src="/img/department.png" style="zoom:50%;" />
 
-![](/img/计量单位.png)
+<img src="/img/计量单位.png" style="zoom: 80%;" />
+
+## 界面设计
+
+### 登录界面
+
+<img src="/img/登录界面.png" style="zoom: 67%;" />
+
+就按照这个界面设计
+
+
+
+### 管理界面
+
+#####  UI设计
+
+<img src="/img/管理界面UI.png" style="zoom:67%;" />
+
+##### 主页界面设计
+
+<img src="/img/主页.png" style="zoom: 50%;" />
+
+##### 出入库等界面设计
+
+<img src="/img/出入库界面设计.png" style="zoom: 50%;" />
+
+##### 具体
+
+###### 	上导航栏
+
+​		logo和用户
+
+
+
+###### 	左导航栏
+
+​		首页
+
+​		仓库管理
+
+​			仓库信息
+
+​			入库管理
+
+​			出库管理
+
+​		进出记录
+
+​		报废管理
+
+​		部门管理
+
+​		用户管理
+
+
+
+###### 	内容栏
+
+​		首页:
+
+​			销售总额,入库数量,出库数量
+
+​			公告
+
+​			统计图
+
+​			
+
+​			
+
