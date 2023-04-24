@@ -1,13 +1,5 @@
 # 仓库管理系统开发文档
 
-
-
-
-
-[TOC]
-
-
-
 ## 需求分析与建模
 
 企业目前存在的问题是：信息化不足，计算机使用率低，大量的日常工作皆是手工处理，纸面处理。因此工作效率低落，企业内部沟通不及时等等问题很难克服，仓库管理不合理，不能及时根据需要调整库存，不能根据快速的调整库存。
@@ -85,7 +77,7 @@
 
 员工可以选择注销自己的账户，超级管理员可以注销员工的账户。
 
-<img src="img/login.png" style="zoom:50%;" />
+![](img/login.png)
 
 ##### 仓库管理
 
@@ -256,27 +248,95 @@ web端：页面布局清晰，颜色搭配合理，色调柔和，各页面主�
 
 ### E-R图如下
 
-<img src="/img/User.png" style="zoom:50%;" />
+![](/img/User.png)
 
-<img src="/img/Warehouse.png" style="zoom:50%;" />
+![](/img/Warehouse.png)
 
-<img src="/img/goods.png" style="zoom:50%;" />
+![](/img/goods.png)
 
-<img src="/img/入库.png" style="zoom:50%;" />
+![](/img/入库.png)
 
-<img src="/img/出库.png" style="zoom:50%;" />
+![](/img/出库.png)
 
-<img src="/img/报废.png" style="zoom:50%;" />
+![](/img/报废.png)
 
-<img src="/img/收入.png" style="zoom:50%;" />
+![](/img/收入.png)
 
-<img src="/img/支出.png" style="zoom:50%;" />
+![](/img/支出.png)
 
-<img src="/img/类别.png" style="zoom:50%;" />
+![](/img/类别.png)
 
-<img src="/img/department.png" style="zoom:50%;" />
+![](/img/department.png)
 
-<img src="/img/计量单位.png" style="zoom: 80%;" />
+![](/img/计量单位.png)
+
+### 数据库设计如下
+
+#### CDM 概念数据模型
+
+![](/img/CDM.png)
+
+#### LDM  逻辑数据模型
+
+![](/img/LDM.png)
+
+#### PDM 物理数据模型
+
+![](/img/PDM.png)
+
+最终导出sql文件
+
+### 数据库表
+
+#### 货物表
+
+![](/img/SQLitegoods.png)
+
+#### 小类
+
+![](/img/SQLiteclass.png)
+
+#### 大类
+
+![](/img/SQLitegroup.png)
+
+#### 部门
+
+![](/img/SQLitedepartment.png)
+
+#### 支出
+
+![](/img/SQLiteexpenditure.png)
+
+#### 收入
+
+![](/img/SQLiteincome.png)
+
+#### 仓库
+
+![](/img/SQLiteincome.png)
+
+#### 入库
+
+![](/img/SQLiteinboundrecords.png)
+
+#### 出库
+
+![](/img/SQLiteoutboundrecords.png)
+
+#### 报废
+
+![](/img/SQLitescraprecords.png)
+
+#### 计量单位
+
+![](/img/SQLiteunit.png)
+
+#### 用户
+
+![](/img/SQLiteuser.png)
+
+
 
 ## 界面设计
 
@@ -341,8 +401,3 @@ web端：页面布局清晰，颜色搭配合理，色调柔和，各页面主�
 ​			公告
 
 ​			统计图
-
-​			
-
-​			
-
