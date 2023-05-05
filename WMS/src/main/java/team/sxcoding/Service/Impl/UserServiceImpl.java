@@ -52,4 +52,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.selectUserByUid(uid);
     }
 
+     /*判断uid是否存在*/
+    @Override
+    public boolean isExistUid(Integer uid){
+        if(baseMapper.isExistUid(uid)>0){
+            return true;
+        }
+        return false;
+    }
+
+
+    /*根据员工编号查询用户信息*/
+    @Override
+    public User selectUserByNumber(String number){
+        return baseMapper.selectUserByNumber(number);
+    }
+
+    /*根据电话号码查询用户信息*/
+    @Override
+    public User selectUserByTelephone(String telephone){
+        return baseMapper.selectUserByTelephone(telephone);
+    }
+
+
+    /*分页显示所有用户*/
+    @Override
+    public PageResult<User> listUsers(Integer page,Integer count){
+        Page<User> pageUser = new Page<>(page, count);
+        IPage<User> userList = baseMapper.listUsers(pageUser);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+    }
+
+
 }

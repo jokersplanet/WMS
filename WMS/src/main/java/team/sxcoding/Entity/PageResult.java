@@ -16,6 +16,6 @@ public class PageResult<T> implements Serializable {
     @Override
     public String toString() {
         return "pages" + pages +
-                "records" + data ;
+                "data" + data ;
     }
 }

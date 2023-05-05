@@ -53,7 +53,7 @@ public class LoginController {
             jwt = authHeader.substring(7);
         }
         Jws<Claims> claimsJws  = JwtUtil.parseToken(jwt);
-        if(claimsJws.getBody().getSubject().equals(0)){
+        if(!(claimsJws.getBody().getSubject().equals("0")||claimsJws.getBody().getSubject().equals("3"))){
             return ServerResponse.Forbidden();
         }
 
