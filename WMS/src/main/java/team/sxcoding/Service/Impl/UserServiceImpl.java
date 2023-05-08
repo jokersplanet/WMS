@@ -87,6 +87,61 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return pageResult;
     }
 
+    /*根据uid查询用户信息（模糊查询）*/
+    @Override
+    public PageResult<User> getUsersByUid(Integer uid,Integer page,Integer count){
+        Page<User> pageUser = new Page<>(page,count);
+        IPage<User> userList = baseMapper.getUsersByUid(pageUser,uid);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+
+    }
+
+    /*根据员工编号查询用户信息（模糊查询）*/
+    @Override
+    public PageResult<User> getUsersByNumber(String number,Integer page,Integer count){
+        Page<User> pageUser = new Page<>(page,count);
+        IPage<User> userList = baseMapper.getUsersByNumber(pageUser,number);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+    }
+
+    /*根据电话号查询用户信息（模糊查询）*/
+    @Override
+    public PageResult<User> getUsersByTelephone(String telephone, Integer page, Integer count){
+        Page<User> pageUser = new Page<>(page,count);
+        IPage<User> userList = baseMapper.getUsersByTelephone(pageUser,telephone);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+    }
+
+    /*根据姓名查询用户信息（模糊查询）*/
+    @Override
+    public PageResult<User> getUsersByName(String username,Integer page,Integer count){
+        Page<User> pageUser = new Page<>(page,count);
+        IPage<User> userList = baseMapper.getUsersByName(pageUser,username);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+    }
+
+    /*修改用户信息*/
+    @Override
+    public Integer updateUser(User user){
+        return baseMapper.updateUser(user);
+    }
+
 
 }
 

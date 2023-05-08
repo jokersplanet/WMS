@@ -29,7 +29,7 @@ public class LoginController {
     @Autowired
     private HttpServletRequest request;
 
-
+    /*登录*/
     @PostMapping("/login")
     public ServerResponse login(@RequestBody User user){
 
@@ -46,6 +46,8 @@ public class LoginController {
 
     }
 
+    /*注册*/
+
     @PostMapping("/register")
     public ServerResponse register(@RequestBody User user){
 
@@ -55,9 +57,10 @@ public class LoginController {
             jwt = authHeader.substring(7);
         }
         Jws<Claims> claimsJws  = JwtUtil.parseToken(jwt);
-        if(!(claimsJws.getBody().getSubject().equals("0")||claimsJws.getBody().getSubject().equals("3"))){
+        if(!(claimsJws.getBody().getSubject().equals("0")||(claimsJws.getBody().getSubject().equals("3") && !(user.getPrivilege().equals("0"))))){
             return ServerResponse.Forbidden();
         }
+
 
         if(user.getUsername().equals(null)||user.getNumber().equals(null)||user.getPassword().equals(null)||user.getGender().equals(null)||user.getPrivilege().equals(null)||user.getTelephone().equals(null)){
             return ServerResponse.ErrorMessage("必填字段未填写");
@@ -70,6 +73,8 @@ public class LoginController {
         }
 
     }
+
+    /*注销（批量，单独）*/
 
 
 }

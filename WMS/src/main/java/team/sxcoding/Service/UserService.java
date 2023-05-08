@@ -34,6 +34,21 @@ public interface UserService extends IService<User>{
     /*分页显示所有用户*/
     PageResult<User> listUsers(Integer page,Integer count);
 
+    /*根据uid查询用户信息（模糊查询）*/
+    PageResult<User> getUsersByUid(Integer uid,Integer page,Integer count);
+
+    /*根据员工编号查询用户信息（模糊查询）*/
+    PageResult<User> getUsersByNumber(String number,Integer page,Integer count);
+
+    /*根据电话号查询用户信息（模糊查询）*/
+    PageResult<User> getUsersByTelephone(String telephone,Integer page,Integer count);
+
+    /*根据姓名查询用户信息（模糊查询）*/
+    PageResult<User> getUsersByName(String username,Integer page,Integer count);
+
+    /*修改用户信息*/
+    Integer updateUser(User user);
+
 
 }
 

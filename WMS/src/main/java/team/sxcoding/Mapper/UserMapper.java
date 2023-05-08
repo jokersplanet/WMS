@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface UserMapper extends BaseMapper<User>{
+public interface UserMapper extends BaseMapper<User> {
 
     /*登录功能*/
     @Select("SELECT password FROM user WHERE uid = #{uid}")
@@ -46,5 +46,28 @@ public interface UserMapper extends BaseMapper<User>{
     /*分页显示所有用户信息*/
     @Select("SELECT uid,number,username,gender,department,telephone FROM user")
     IPage<User> listUsers(Page<User> page);
+
+    /*根据用户uid模糊查询用户信息*/
+    @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE uid LIKE '%' || #{uid} || '%'")
+    IPage<User> getUsersByUid(Page<User> page, @Param("uid") Integer uid);
+
+    /*根据员工编号模糊查询用户信息*/
+    @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE number LIKE '%' || #{number} || '%'")
+    IPage<User> getUsersByNumber(Page<User> page, @Param("number") String number);
+
+    /*根据用户电话号码模糊查询用户信息*/
+    @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE telephone LIKE '%' || #{telephone} ||'%'")
+    IPage<User> getUsersByTelephone(Page<User> page, @Param("telephone") String telephone);
+
+    /*根据用户姓名模糊查询用户信息*/
+    @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE username LIKE '%' || #{username} ||'%' ")
+    IPage<User> getUsersByName(Page<User> page, @Param("username") String username);
+
+    /*修改用户信息*/
+    @Update("UPDATE user SET number = COALESCE(#{number},number), password = COALESCE(#{password},password), username = COALESCE(#{username}, username )," +
+            "gender = COALESCE(#{gender},gender), photo = COALESCE(#{photo},photo), privilege = COALESCE(#{privilege},privilege), birthday = COALESCE(#{birthday},birthday)," +
+            "telephone = COALESCE(#{telephone},telephone), address = COALESCE(#{address},address), dutis = COALESCE(#{duties},duties) WHERE uid = #{uid}")
+    Integer updateUser(User user);
+
 }
 
