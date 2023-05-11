@@ -32,11 +32,11 @@ public interface UserMapper extends BaseMapper<User> {
     User selectUserByUid(@Param("uid") Integer uid);
 
     /*根据telephone查询用户信息*/
-    @Select("SELECT * FROM user WHERE telephone = #{telephone}")
+    @Select("SELECT uid,number,username,gender,photo,birthday,department,telephone,address,duties FROM user WHERE telephone = #{telephone}")
     User selectUserByTelephone(@Param("telephone") String telephone);
 
     /*根据number查询用户信息*/
-    @Select("SELECT * FROM user WHERE number = #{number}")
+    @Select("SELECT uid,number,username,gender,photo,birthday,department,telephone,address,duties FROM user WHERE number = #{number}")
     User selectUserByNumber(@Param("number") String number);
 
     /*判断uid是否存在*/
@@ -61,13 +61,19 @@ public interface UserMapper extends BaseMapper<User> {
 
     /*根据用户姓名模糊查询用户信息*/
     @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE username LIKE '%' || #{username} ||'%' ")
-    IPage<User> getUsersByName(Page<User> page, @Param("username") String username);
+    IPage<User> getUsersByUsername(Page<User> page, @Param("username") String username);
 
     /*修改用户信息*/
     @Update("UPDATE user SET number = COALESCE(#{number},number), password = COALESCE(#{password},password), username = COALESCE(#{username}, username )," +
             "gender = COALESCE(#{gender},gender), photo = COALESCE(#{photo},photo), privilege = COALESCE(#{privilege},privilege), birthday = COALESCE(#{birthday},birthday)," +
-            "telephone = COALESCE(#{telephone},telephone), address = COALESCE(#{address},address), dutis = COALESCE(#{duties},duties) WHERE uid = #{uid}")
+            "telephone = COALESCE(#{telephone},telephone), address = COALESCE(#{address},address), duties = COALESCE(#{duties},duties) WHERE uid = #{uid}")
     Integer updateUser(User user);
+
+    /*删除用户信息*/
+    @Delete("DELETE FROM user WHERE uid = #{uid}")
+    boolean deleteUserByUid(@Param("uid") Integer uid);
+
+
 
 }
 

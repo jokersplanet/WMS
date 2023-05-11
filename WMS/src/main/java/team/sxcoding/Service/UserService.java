@@ -44,10 +44,14 @@ public interface UserService extends IService<User>{
     PageResult<User> getUsersByTelephone(String telephone,Integer page,Integer count);
 
     /*根据姓名查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByName(String username,Integer page,Integer count);
+    PageResult<User> getUsersByUsername(String username,Integer page,Integer count);
 
     /*修改用户信息*/
     Integer updateUser(User user);
+
+    /*删除用户信息*/
+    boolean deleteUserByUid(Integer uid);
+
 
 
 }

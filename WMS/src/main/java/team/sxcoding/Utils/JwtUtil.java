@@ -1,9 +1,7 @@
 package team.sxcoding.Utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+
 import java.util.Date;
 
 public class JwtUtil {
@@ -23,8 +21,19 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static Jws<Claims> parseToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+
+
+
+
+    public static Claims parseToken(String token) {
+        Claims claims ;
+        try {
+            claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        }catch (ExpiredJwtException e) {
+            claims = e.getClaims();
+        }
+
+        return claims;
     }
 }
 

@@ -126,9 +126,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     /*根据姓名查询用户信息（模糊查询）*/
     @Override
-    public PageResult<User> getUsersByName(String username,Integer page,Integer count){
+    public PageResult<User> getUsersByUsername(String username,Integer page,Integer count){
         Page<User> pageUser = new Page<>(page,count);
-        IPage<User> userList = baseMapper.getUsersByName(pageUser,username);
+        IPage<User> userList = baseMapper.getUsersByUsername(pageUser,username);
 
         PageResult<User> pageResult = new PageResult<>();
         pageResult.setPages(userList.getPages());
@@ -141,6 +141,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Integer updateUser(User user){
         return baseMapper.updateUser(user);
     }
+
+    /*删除用户信息*/
+    @Override
+    public boolean deleteUserByUid(Integer uid){
+        return baseMapper.deleteUserByUid(uid);
+    }
+
+
+
 
 
 }
