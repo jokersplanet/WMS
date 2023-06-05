@@ -20,11 +20,11 @@ public interface UserMapper extends BaseMapper<User> {
     Integer register(User user);
 
     /*判断员工编号是否重复*/
-    @Select("SELECT COUNT(*) FROM user WHERE number = #{number}")
+    @Select("SELECT COUNT(*) FROM user WHERE number LIKE '%' || #{number} ||'%'")
     Integer isExistNumber(@Param("number") String number);
 
     /*判断员工电话号码是否重复*/
-    @Select("SELECT COUNT(*) FROM user WHERE telephone = #{telephone}")
+    @Select("SELECT COUNT(*) FROM user WHERE telephone LIKE '%' || #{telephone} ||'%'")
     Integer isExistTelephone(@Param("telephone") String telephone);
 
     /*根据uid查询用户信息*/
@@ -40,7 +40,7 @@ public interface UserMapper extends BaseMapper<User> {
     User selectUserByNumber(@Param("number") String number);
 
     /*判断uid是否存在*/
-    @Select("SELECT COUNT(*) FROM user WHERE uid = #{uid}")
+    @Select("SELECT COUNT(*) FROM user WHERE uid LIKE '%' || #{uid} ||'%'")
     Integer isExistUid(@Param("uid") Integer uid);
 
     /*分页显示所有用户信息*/
@@ -63,6 +63,11 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE username LIKE '%' || #{username} ||'%' ")
     IPage<User> getUsersByUsername(Page<User> page, @Param("username") String username);
 
+    /*根据用户部门模糊查询用户信息*/
+    @Select("SELECT uid,number,username,gender,department,telephone FROM user WHERE department LIKE '%' || #{department} ||'%' ")
+    IPage<User> getUsersByDepartment(Page<User> page, @Param("department") Integer id);
+
+
     /*修改用户信息*/
     @Update("UPDATE user SET number = COALESCE(#{number},number), password = COALESCE(#{password},password), username = COALESCE(#{username}, username )," +
             "gender = COALESCE(#{gender},gender), photo = COALESCE(#{photo},photo), privilege = COALESCE(#{privilege},privilege), birthday = COALESCE(#{birthday},birthday)," +
@@ -72,6 +77,10 @@ public interface UserMapper extends BaseMapper<User> {
     /*删除用户信息*/
     @Delete("DELETE FROM user WHERE uid = #{uid}")
     boolean deleteUserByUid(@Param("uid") Integer uid);
+
+    /*判断姓名是否存在*/
+    @Select("SELECT COUNT(*) FROM user WHERE username LIKE '%' || #{username} ||'%'")
+    Integer isExistName(@Param("username") String username);
 
 
 

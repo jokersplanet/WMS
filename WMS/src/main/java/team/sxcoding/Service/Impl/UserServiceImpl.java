@@ -136,6 +136,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return pageResult;
     }
 
+    /*根据部门查询用户信息（模糊查询）*/
+    @Override
+    public  PageResult<User> getUsersByDepartment(Integer id,Integer page,Integer count){
+        Page<User> pageUser = new Page<>(page,count);
+        IPage<User> userList = baseMapper.getUsersByDepartment(pageUser,id);
+
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPages(userList.getPages());
+        pageResult.setData(userList.getRecords());
+        return pageResult;
+    }
+
+
     /*修改用户信息*/
     @Override
     public Integer updateUser(User user){
@@ -148,7 +161,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.deleteUserByUid(uid);
     }
 
-
+    /*判断姓名是否存在*/
+    @Override
+    public boolean isExistUsername(String username){
+        if(baseMapper.isExistName(username)>0){
+            return true;
+        }
+        return false;
+    }
 
 
 

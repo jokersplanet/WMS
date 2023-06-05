@@ -37,7 +37,7 @@ public class User {
     private Date birthday;
 
     @TableField("department")
-    private String department;
+    private Integer department;
 
     @TableField("telephone")
     private String telephone;
