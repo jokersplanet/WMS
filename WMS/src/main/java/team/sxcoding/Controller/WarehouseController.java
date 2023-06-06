@@ -63,7 +63,7 @@ public class WarehouseController {
     }
 
     /*创建仓库*/
-    @PostMapping("createWarehouse")
+    @PostMapping("insertWarehouse")
     public ServerResponse createWarehouse(@RequestBody Warehouse warehouse){
         Claims claims = null;
         claims = getToken(request);
