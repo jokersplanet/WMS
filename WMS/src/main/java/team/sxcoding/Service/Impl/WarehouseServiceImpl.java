@@ -17,10 +17,18 @@ import java.util.List;
 public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse> implements WarehouseService {
 
 
-    /* 判断部门是否存在*/
+    /* 判断仓库是否存在*/
     @Override
     public boolean isExistWarehouse(Integer id){
         if(baseMapper.isExistWarehouse(id)>0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isExistWarehouseName(String name){
+        if(baseMapper.isExistWarehouseName(name)>0){
             return true;
         }
         return false;
@@ -37,25 +45,27 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
         return pageResult;
     }
 
+    @Override
+    public List<Warehouse> selectWarehouseIdAndName(){
+        return baseMapper.selectWarehouseIdAndName();
+    }
+
     /*新建仓库*/
     @Override
-    public List<Warehouse> createWarehouse(Warehouse warehouse){
-        baseMapper.createWarehouse(warehouse);
-        return baseMapper.listWarehouse();
+    public boolean insertWarehouse(Warehouse warehouse){
+        return baseMapper.insertWarehouse(warehouse);
     }
 
     /*修改仓库*/
     @Override
-    public List<Warehouse> updateWarehouse(Warehouse warehouse){
-        baseMapper.updateWarehouse(warehouse);
-        return baseMapper.listWarehouse();
+    public boolean updateWarehouse(Warehouse warehouse){
+        return baseMapper.updateWarehouse(warehouse);
     }
 
-    /*删除部门*/
+    /*删除仓库*/
     @Override
-    public List<Warehouse> deleteWarehouse(Integer id){
-        baseMapper.deleteWarehouseById(id);
-        return baseMapper.listWarehouse();
+    public boolean deleteWarehouse(Integer id){
+        return  baseMapper.deleteWarehouseById(id);
     }
 
 }

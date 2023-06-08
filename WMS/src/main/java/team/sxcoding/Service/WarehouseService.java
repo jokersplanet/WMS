@@ -12,16 +12,20 @@ public interface WarehouseService extends IService<Warehouse> {
     /* 判断仓库是否存在*/
     boolean isExistWarehouse(Integer id);
 
+    boolean isExistWarehouseName(String name);
+
     /*列出仓库*/
     PageResult<Warehouse> selectWarehouse(Integer page, Integer count);
 
+    List<Warehouse> selectWarehouseIdAndName();
+
     /*新建仓库*/
-    List<Warehouse> createWarehouse(Warehouse warehouse);
+    boolean insertWarehouse(Warehouse warehouse);
 
     /*修改仓库*/
-    List<Warehouse> updateWarehouse(Warehouse warehouse);
+    boolean updateWarehouse(Warehouse warehouse);
 
     /*删除仓库*/
-    List<Warehouse> deleteWarehouse(Integer id);
+    boolean deleteWarehouse(Integer id);
 
 }

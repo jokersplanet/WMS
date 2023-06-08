@@ -3,11 +3,8 @@ package team.sxcoding.Controller;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import team.sxcoding.Config.PermissionLevel;
-import team.sxcoding.Entity.Department;
 import team.sxcoding.Entity.PageResult;
 import team.sxcoding.Entity.Warehouse;
-import team.sxcoding.Service.DepartmentService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +14,10 @@ import team.sxcoding.Service.WarehouseService;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static team.sxcoding.Utils.PermissionUtil.getToken;
-import static team.sxcoding.Utils.PermissionUtil.isJwtLegal;
+import static team.sxcoding.Utils.PermissionUtil.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/warehouse")
 public class WarehouseController {
 
@@ -79,7 +76,8 @@ public class WarehouseController {
                 return ServerResponse.NeedLogin();
             }
         }
-        if(!(claims.getSubject().equals(PermissionLevel.SUPER_ADMIN)||claims.getSubject().equals(PermissionLevel.ADMIN))){
+
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
         }
 
@@ -87,9 +85,12 @@ public class WarehouseController {
 
         if(warehouse.getName() == null || warehouse.getHead() == null || warehouse.getAddress() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else {
-            List<Warehouse> warehouseList = warehouseService.createWarehouse(warehouse);
-            return ServerResponse.Success(warehouseList);
+        }else if(warehouseService.isExistWarehouseName(warehouse.getName())){
+            return ServerResponse.ErrorMessage("仓库名重复");
+        }else if(warehouseService.insertWarehouse(warehouse)){
+                return ServerResponse.Success(warehouseService.selectWarehouseIdAndName());
+        }else{
+            return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
@@ -111,15 +112,18 @@ public class WarehouseController {
             }
         }
 
-        if(!(claims.getSubject().equals(PermissionLevel.SUPER_ADMIN)||claims.getSubject().equals(PermissionLevel.ADMIN))){
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
         }
 
         if(warehouse.getId() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else {
-            List<Warehouse> warehouseList = warehouseService.updateWarehouse(warehouse);
-            return ServerResponse.Success(warehouseList);
+        }else if(!warehouseService.isExistWarehouse(warehouse.getId())) {
+            return ServerResponse.ErrorMessage("仓库不存在");
+        }else if(warehouseService.updateWarehouse(warehouse)){
+            return ServerResponse.Success(warehouseService.selectWarehouseIdAndName());
+        }else{
+            return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
@@ -141,19 +145,18 @@ public class WarehouseController {
             }
         }
 
-        if(!(claims.getSubject().equals(PermissionLevel.SUPER_ADMIN)||claims.getSubject().equals(PermissionLevel.ADMIN))){
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
-        }
-
-        if(!warehouseService.isExistWarehouse(id)){
-            return ServerResponse.ErrorMessage("仓库不存在");
         }
 
         if(id == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
+        }else if(!warehouseService.isExistWarehouse(id)){
+            return ServerResponse.ErrorMessage("仓库不存在");
+        }else if(warehouseService.deleteWarehouse(id)){
+            return ServerResponse.Success(warehouseService.selectWarehouseIdAndName());
         }else{
-            List<Warehouse> warehouseList = warehouseService.deleteWarehouse(id);
-            return ServerResponse.Success(warehouseList);
+            return ServerResponse.ErrorMessage("操作失败");
         }
     }
 

@@ -17,8 +17,8 @@ public class Class {
     @TableField("name")
     private String name;
 
-    @TableField("groupid")
-    private Integer group_id;
+    @TableField("group_id")
+    private Integer groupId;
 
 
 }

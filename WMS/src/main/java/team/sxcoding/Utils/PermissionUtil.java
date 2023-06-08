@@ -1,6 +1,8 @@
 package team.sxcoding.Utils;
 
 import io.jsonwebtoken.Claims;
+import team.sxcoding.Config.PermissionLevel;
+import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,4 +94,17 @@ public class PermissionUtil {
         }
     }
 
+    public  static boolean isAdmin(Claims claims){
+        if(claims.getSubject().equals(SUPER_ADMIN.getLevel()) || claims.getSubject().equals(ADMIN.getLevel())){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isWarehousekeeper(Claims claims){
+        if(claims.getSubject().equals(SUPER_ADMIN.getLevel()) || claims.getSubject().equals(ADMIN.getLevel()) || claims.getSubject().equals(WAREHOUSE_KEEPER.getLevel())){
+            return true;
+        }
+        return false;
+    }
 }

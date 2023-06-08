@@ -18,6 +18,7 @@ import static team.sxcoding.Utils.PermissionUtil.*;
 
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/user")
 public class UserController {
 

@@ -12,15 +12,19 @@ public interface DepartmentService extends IService<Department> {
     /* 判断部门是否存在*/
     boolean isExistDepartment(Integer id);
 
+    boolean isExistDepartmentName(String name);
+
     /*列出部门*/
     PageResult<Department> selectDepartment(Integer page,Integer count);
 
+    List<Department> selectDepartmentIdAndName();
+
     /*创建部门*/
-    List<Department> createDepartment(Department department);
+    boolean insertDepartment(Department department);
 
     /*修改部门*/
-    List<Department> updateDepartment(Department department);
+    boolean updateDepartment(Department department);
 
     /*删除部门*/
-    List<Department> deleteDepartment(Integer id);
+    boolean deleteDepartment(Integer id);
 }

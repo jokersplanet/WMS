@@ -24,6 +24,14 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return false;
     }
 
+    @Override
+    public boolean isExistDepartmentName(String name){
+        if(baseMapper.isExistDepartmentName(name)>0){
+            return true;
+        }
+        return false;
+    }
+
     /*列出部门*/
     @Override
     public PageResult<Department> selectDepartment(Integer page, Integer count){
@@ -36,26 +44,28 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return pageResult;
     }
 
+    @Override
+    public List<Department> selectDepartmentIdAndName(){
+        return baseMapper.selectDepartmentIdAndName();
+    }
+
     /*创建部门*/
     @Override
-    public List<Department> createDepartment(Department department){
-        baseMapper.createDepartment(department);
-         return baseMapper.listDepartment();
+    public boolean insertDepartment(Department department){
+        return baseMapper.createDepartment(department);
     }
 
 
     /*修改部门*/
     @Override
-    public List<Department> updateDepartment(Department department){
-       baseMapper.updateDepartment(department);
-       return baseMapper.listDepartment();
+    public boolean updateDepartment(Department department){
+          return baseMapper.updateDepartment(department);
     }
 
     /*删除部门*/
     @Override
-    public List<Department> deleteDepartment(Integer id){
-        baseMapper.deleteDepartmentById(id);
-        return baseMapper.listDepartment();
+    public boolean deleteDepartment(Integer id){
+        return baseMapper.deleteDepartmentById(id);
     }
 
 

@@ -4,34 +4,34 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
-import team.sxcoding.Entity.Department;
-import team.sxcoding.Entity.PageResult;
-import team.sxcoding.Service.DepartmentService;
+import team.sxcoding.Entity.Class;
+import team.sxcoding.Service.ClassService;
+import team.sxcoding.Service.GroupService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 
 import static team.sxcoding.Utils.PermissionUtil.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/department")
-public class DepartmentController {
+@RequestMapping("/class")
+public class ClassController {
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    DepartmentService departmentService;
-
+    private UserService userService;
     @Autowired
     private HttpServletRequest request;
 
-    /*查询部门*/
-    @GetMapping("selectDepartment")
-    public ServerResponse selectDepartment(Integer page,Integer count){
+    @Autowired
+    private ClassService classService;
+
+    @Autowired
+    private GroupService groupService;
+
+    @GetMapping("getClassByGroupId")
+    public ServerResponse getClassByGroupId(Integer groupid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -47,18 +47,77 @@ public class DepartmentController {
             }
         }
 
-        if ( page == null || count == null) {
-            return ServerResponse.Error();
+        List<Class> classes = classService.selectClassByGroupId(groupid);
+        return ServerResponse.Success("查询成功", classes);
+    }
+
+
+    @PostMapping("insertClass")
+    public ServerResponse insertClass(@RequestBody Class clazz){
+        Claims claims = null;
+        claims = getToken(request);
+        if (claims.isEmpty()){
+            return ServerResponse.NeedLoginMessage("请重新登录");
+        } else {
+            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
+                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
+                if (!isJwtLegal(claims, oldPrivilege)) {
+                    return ServerResponse.NeedLoginMessage("请重新登录");
+                }
+            }else {
+                return ServerResponse.NeedLogin();
+            }
+        }
+
+        if(!isWarehousekeeper(claims)){
+            return ServerResponse.Forbidden();
+        }
+
+        if(clazz.getName() == null || clazz.getGroupId() == null){
+            return ServerResponse.ErrorMessage("必填字段未填写");
+        }else if(groupService.isExistGroupId(clazz.getGroupId() )){
+           return ServerResponse.ErrorMessage("大类不存在");
+        }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
+            return ServerResponse.ErrorMessage("该类已存在");
+        }else if(classService.insertClassByGroupId(clazz)){
+            return ServerResponse.Success(classService.selectClassIdAndName());
+        }else{
+            return ServerResponse.ErrorMessage("操作失败");
+        }
+    }
+
+    @PostMapping("updateClass")
+    public ServerResponse updateClass(@RequestBody Class clazz) {
+        Claims claims = null;
+        claims = getToken(request);
+        if (claims.isEmpty()){
+            return ServerResponse.NeedLoginMessage("请重新登录");
+        } else {
+            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
+                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
+                if (!isJwtLegal(claims, oldPrivilege)) {
+                    return ServerResponse.NeedLoginMessage("请重新登录");
+                }
+            }else {
+                return ServerResponse.NeedLogin();
+            }
+        }
+        if(!isWarehousekeeper(claims)){
+            return ServerResponse.Forbidden();
+        }
+        if(clazz.getId() == null){
+            return ServerResponse.ErrorMessage("必填字段未填写");
+        }else if(!classService.isExistClassId(clazz.getId())){
+            return ServerResponse.ErrorMessage("类别不存在");
+        }else if(classService.updateClassById(clazz)){
+            return ServerResponse.Success(classService.selectClassIdAndName());
         }else {
-            PageResult<Department> departments = departmentService.selectDepartment( page, count);
-            return ServerResponse.Success("查询成功", departments);
+            return ServerResponse.ErrorMessage("操作失败");
         }
-
     }
 
-    /*创建部门*/
-    @PostMapping("insertDepartment")
-    public ServerResponse createDepartment(@RequestBody Department department){
+    @GetMapping("deleteClassById")
+    public ServerResponse deleteClass(Integer id){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -73,28 +132,26 @@ public class DepartmentController {
                 return ServerResponse.NeedLogin();
             }
         }
-
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
-
-        if(department.getName() == null){
+        if( id == null ){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(departmentService.isExistDepartmentName(department.getName())) {
-            return ServerResponse.ErrorMessage("部门名重复");
-        }else if(departmentService.insertDepartment(department)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
-        }else{
+        }else if(!classService.isExistClassId(id)){
+            return ServerResponse.ErrorMessage("类别不存在");
+        }else if(classService.deleteClassById(id)){
+            return ServerResponse.Success(classService.selectClassIdAndName());
+        }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
-    /*修改部门*/
-    @PostMapping("updateDepartment")
-    public ServerResponse updateDepartment(@RequestBody Department department){
+
+    @GetMapping("deleteClassByGroupId")
+    public ServerResponse deleteClassById(Integer groupId) {
         Claims claims = null;
         claims = getToken(request);
-        if (claims.isEmpty()){
+        if (claims.isEmpty()) {
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
@@ -102,61 +159,21 @@ public class DepartmentController {
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
-            }else {
+            } else {
                 return ServerResponse.NeedLogin();
             }
         }
-
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)) {
             return ServerResponse.Forbidden();
         }
-
-        if(department.getId() == null){
+        if(groupId == null) {
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!departmentService.isExistDepartment(department.getId())){
-            return ServerResponse.ErrorMessage("部门不存在");
-        }else if(departmentService.updateDepartment(department)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
-        }else{
+        }else if (!groupService.isExistGroupId(groupId)) {
+            return ServerResponse.ErrorMessage("类别不存在");
+        }else if(classService.deleteClassByGroupId(groupId)){
+            return ServerResponse.Success(classService.selectClassIdAndName());
+        }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
-
     }
-
-    /*删除部门*/
-    @GetMapping("deleteDepartment")
-    public ServerResponse<List<Department>> deleteDepartment(Integer id){
-        Claims claims = null;
-        claims = getToken(request);
-        if (claims.isEmpty()){
-            return ServerResponse.NeedLoginMessage("请重新登录");
-        } else {
-            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
-                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
-                if (!isJwtLegal(claims, oldPrivilege)) {
-                    return ServerResponse.NeedLoginMessage("请重新登录");
-                }
-            }else {
-                return ServerResponse.NeedLogin();
-            }
-        }
-
-        if(!isAdmin(claims)){
-            return ServerResponse.Forbidden();
-        }
-
-        if(id == null){
-            return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!departmentService.isExistDepartment(id)){
-            return ServerResponse.ErrorMessage("部门不存在");
-        }else if(departmentService.deleteDepartment(id)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
-        }else{
-            return ServerResponse.ErrorMessage("操作失败");
-        }
-
-    }
-
-
-
 }
