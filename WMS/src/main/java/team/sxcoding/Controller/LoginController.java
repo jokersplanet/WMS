@@ -72,11 +72,9 @@ public class LoginController {
             }
         }
 
-
         if(!((SUPER_ADMIN.getLevel().equals(claims.getSubject()) && ! user.getPrivilege().equals(SUPER_ADMIN.getLevel())) || (ADMIN.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()))) || (USER_MANAGER.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()) || user.getPrivilege().equals(USER_MANAGER.getLevel()))))){
             return ServerResponse.Forbidden();
         }
-
 
         if(user.getUsername().equals(null)||user.getNumber().equals(null)||user.getPassword().equals(null)||user.getGender().equals(null)||user.getPrivilege().equals(null)||user.getTelephone().equals(null)){
             return ServerResponse.ErrorMessage("必填字段未填写");
@@ -87,7 +85,6 @@ public class LoginController {
             user=userService.register(user);
             return ServerResponse.Success("创建成功",user);
         }
-
     }
 
 

@@ -1,6 +1,6 @@
 package team.sxcoding.Service;
 
-import team.sxcoding.Entity.PageResult;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import team.sxcoding.Entity.User;
 
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -35,25 +35,25 @@ public interface UserService extends IService<User>{
     User selectUserByTelephone(String telephone);
 
     /*分页显示所有用户*/
-    PageResult<User> listUsers(Integer page,Integer count);
+    IPage<User> listUsers(Integer page, Integer count);
 
     /*根据uid查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByUid(Integer uid,Integer page,Integer count);
+    IPage<User> getUsersByUid(Integer uid, Integer page, Integer count);
 
     /*根据员工编号查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByNumber(String number,Integer page,Integer count);
+    IPage<User> getUsersByNumber(String number,Integer page,Integer count);
 
     /*根据电话号查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByTelephone(String telephone,Integer page,Integer count);
+    IPage<User> getUsersByTelephone(String telephone,Integer page,Integer count);
 
     /*根据姓名查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByUsername(String username,Integer page,Integer count);
+    IPage<User> getUsersByUsername(String username,Integer page,Integer count);
 
     /*根据部门查询用户信息（模糊查询）*/
-    PageResult<User> getUsersByDepartment(Integer id,Integer page,Integer count);
+    IPage<User> getUsersByDepartment(Integer id,Integer page,Integer count);
 
     /*修改用户信息*/
-    Integer updateUser(User user);
+    boolean updateUser(User user);
 
     /*删除用户信息*/
     boolean deleteUserByUid(Integer uid);

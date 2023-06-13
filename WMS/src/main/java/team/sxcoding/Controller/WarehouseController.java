@@ -1,9 +1,9 @@
 package team.sxcoding.Controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import team.sxcoding.Entity.PageResult;
 import team.sxcoding.Entity.Warehouse;
 import team.sxcoding.Service.UserService;
 
@@ -12,7 +12,6 @@ import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Service.WarehouseService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static team.sxcoding.Utils.PermissionUtil.*;
 
@@ -53,7 +52,7 @@ public class WarehouseController {
         if (page == null || count == null) {
             return ServerResponse.Error();
         } else {
-            PageResult<Warehouse> warehouse = warehouseService.selectWarehouse(page, count);
+            IPage<Warehouse> warehouse = warehouseService.selectWarehouse(page, count);
             return ServerResponse.Success("查询成功", warehouse);
         }
 
@@ -87,7 +86,7 @@ public class WarehouseController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(warehouseService.isExistWarehouseName(warehouse.getName())){
             return ServerResponse.ErrorMessage("仓库名重复");
-        }else if(warehouseService.insertWarehouse(warehouse)){
+        }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
                 return ServerResponse.Success(warehouseService.selectWarehouseIdAndName());
         }else{
             return ServerResponse.ErrorMessage("操作失败");
@@ -120,7 +119,7 @@ public class WarehouseController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!warehouseService.isExistWarehouse(warehouse.getId())) {
             return ServerResponse.ErrorMessage("仓库不存在");
-        }else if(warehouseService.updateWarehouse(warehouse)){
+        }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
             return ServerResponse.Success(warehouseService.selectWarehouseIdAndName());
         }else{
             return ServerResponse.ErrorMessage("操作失败");

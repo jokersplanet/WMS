@@ -1,9 +1,11 @@
 package team.sxcoding.Service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.sxcoding.Entity.Group;
 import team.sxcoding.Entity.Unit;
 
+import java.sql.Wrapper;
 import java.util.List;
 
 public interface UnitService extends IService<Unit> {
@@ -18,12 +20,12 @@ public interface UnitService extends IService<Unit> {
 
     List<Unit> selectUnitIdAndName();
 
-    /*增加单位*/
-    boolean insertUnit(Unit unit);
+    /*增加或修改单位*/
+    boolean saveOrUpdateUnit(Unit unit);
 
     /*删除单位*/
     boolean deleteUnitById(Integer id);
 
-    /*修改单位*/
-    boolean updateUnitById(Unit unit);
+
+
 }

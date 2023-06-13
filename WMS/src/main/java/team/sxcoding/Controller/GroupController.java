@@ -113,7 +113,7 @@ public class GroupController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!groupService.isExistGroupId(id)){
             return ServerResponse.ErrorMessage("类别不存在");
-        }else if(classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id)){
+        }else if(classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id) || !classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id)){
             return ServerResponse.Success(groupService.selectGroupIdAndName());
         }else {
             return ServerResponse.ErrorMessage("操作失败");

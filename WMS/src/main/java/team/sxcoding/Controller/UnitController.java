@@ -74,7 +74,7 @@ public class UnitController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(unitService.isExistUnitName(unit.getName())){
             return ServerResponse.ErrorMessage("单位名重复");
-        }else if(unitService.insertUnit(unit)){
+        }else if(unitService.saveOrUpdateUnit(unit)){
             return ServerResponse.Success(unitService.selectUnitIdAndName());
         }else {
             return ServerResponse.ErrorMessage("操作失败");
@@ -137,7 +137,7 @@ public class UnitController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!unitService.isExistUnitId(unit.getId())){
             return ServerResponse.ErrorMessage("单位不存在");
-        }else if(unitService.updateUnitById(unit)){
+        }else if(unitService.saveOrUpdateUnit(unit)){
             return ServerResponse.Success(unitService.selectUnitIdAndName());
         }else {
             return ServerResponse.ErrorMessage("操作失败");

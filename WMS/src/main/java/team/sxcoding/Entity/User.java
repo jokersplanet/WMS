@@ -1,9 +1,6 @@
 package team.sxcoding.Entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +9,7 @@ import java.util.Date;
 @TableName("user")
 public class User {
 
+    @Version
     @TableId(type = IdType.AUTO)
     private Integer uid;
 

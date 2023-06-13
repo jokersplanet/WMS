@@ -1,7 +1,9 @@
 package team.sxcoding.Service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import team.sxcoding.Entity.Class;
 import team.sxcoding.Entity.Group;
 import team.sxcoding.Entity.Unit;
 import team.sxcoding.Mapper.UnitMapper;
@@ -16,7 +18,7 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
     /*判断Unit是否存在*/
     @Override
     public boolean isExistUnitId(Integer id){
-        if(baseMapper.isExistUnitId(id)>0){
+        if(count(new QueryWrapper<Unit>().eq("id",id))>0){
             return true;
         }
         return false;
@@ -24,7 +26,7 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
 
     @Override
     public boolean isExistUnitName(String name){
-        if(baseMapper.isExistUnitName(name)>0){
+        if(count(new QueryWrapper<Unit>().eq("name",name))>0){
             return true;
         }
         return false;
@@ -33,29 +35,28 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
     /*查询单位*/
     @Override
     public List<Unit> selectUnits(){
-        return baseMapper.selectUnits();
+        return list();
     }
 
     @Override
     public List<Unit> selectUnitIdAndName(){
-        return baseMapper.selectUnitIdAndName();
+        return baseMapper.selectList(new QueryWrapper<Unit>().select("id","name"));
     }
 
-    /*增加单位*/
+    /*增加或者修改单位*/
     @Override
-    public boolean insertUnit(Unit unit){
-        return baseMapper.insertUnit(unit);
+    public boolean saveOrUpdateUnit(Unit unit){
+        return saveOrUpdate(unit);
     }
 
     /*删除单位*/
     @Override
     public boolean deleteUnitById(Integer id){
-        return baseMapper.deleteUnitById(id);
+        return removeById(id);
     }
 
-    /*修改单位*/
-    @Override
-    public boolean updateUnitById(Unit unit){
-        return baseMapper.updateUnitById(unit);
-    }
+
+
+
+
 }

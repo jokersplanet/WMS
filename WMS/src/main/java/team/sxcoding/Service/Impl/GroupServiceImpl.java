@@ -11,7 +11,6 @@ import java.util.List;
 @Service("GroupService")
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements GroupService {
 
-
     /*判断group是否存在*/
     @Override
     public boolean isExistGroupId(Integer id){
@@ -55,6 +54,6 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     /*修改类别*/
     @Override
     public boolean updateGroupById(Group group){
-        return baseMapper.updateGroupById(group);
+        return updateById(group);
     }
 }

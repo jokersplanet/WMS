@@ -1,11 +1,11 @@
 package team.sxcoding.Controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.Department;
-import team.sxcoding.Entity.PageResult;
 import team.sxcoding.Service.DepartmentService;
 import team.sxcoding.Service.UserService;
 
@@ -50,7 +50,7 @@ public class DepartmentController {
         if ( page == null || count == null) {
             return ServerResponse.Error();
         }else {
-            PageResult<Department> departments = departmentService.selectDepartment( page, count);
+            IPage<Department> departments = departmentService.selectDepartment( page, count);
             return ServerResponse.Success("查询成功", departments);
         }
 
@@ -82,7 +82,7 @@ public class DepartmentController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(departmentService.isExistDepartmentName(department.getName())) {
             return ServerResponse.ErrorMessage("部门名重复");
-        }else if(departmentService.insertDepartment(department)){
+        }else if(departmentService.saveOrUpdateDepartment(department)){
             return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
         }else{
             return ServerResponse.ErrorMessage("操作失败");
@@ -115,7 +115,7 @@ public class DepartmentController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!departmentService.isExistDepartment(department.getId())){
             return ServerResponse.ErrorMessage("部门不存在");
-        }else if(departmentService.updateDepartment(department)){
+        }else if(departmentService.saveOrUpdateDepartment(department)){
             return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
         }else{
             return ServerResponse.ErrorMessage("操作失败");

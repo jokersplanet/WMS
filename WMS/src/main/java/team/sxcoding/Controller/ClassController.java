@@ -75,11 +75,11 @@ public class ClassController {
 
         if(clazz.getName() == null || clazz.getGroupId() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(groupService.isExistGroupId(clazz.getGroupId() )){
+        }else if(!groupService.isExistGroupId(clazz.getGroupId() )){
            return ServerResponse.ErrorMessage("大类不存在");
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("该类已存在");
-        }else if(classService.insertClassByGroupId(clazz)){
+        }else if(classService.saveOrUpdateClass(clazz)){
             return ServerResponse.Success(classService.selectClassIdAndName());
         }else{
             return ServerResponse.ErrorMessage("操作失败");
@@ -107,11 +107,13 @@ public class ClassController {
         }
         if(clazz.getId() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!classService.isExistClassId(clazz.getId())){
+        }else if(!classService.isExistClassId(clazz.getId()) || !groupService.isExistGroupId(clazz.getGroupId())){
             return ServerResponse.ErrorMessage("类别不存在");
-        }else if(classService.updateClassById(clazz)){
+        }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
+            return ServerResponse.ErrorMessage("类别已存在");
+        } else if(classService.saveOrUpdateClass(clazz)){
             return ServerResponse.Success(classService.selectClassIdAndName());
-        }else {
+        }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
     }

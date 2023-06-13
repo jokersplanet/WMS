@@ -1,12 +1,12 @@
 package team.sxcoding.Controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import team.sxcoding.Config.ServerResponse;
-import team.sxcoding.Entity.PageResult;
 import team.sxcoding.Entity.User;
 import team.sxcoding.Service.DepartmentService;
 import team.sxcoding.Service.UserService;
@@ -162,7 +162,7 @@ public class UserController {
         if ( page == null || count == null) {
             return ServerResponse.Error();
         }else {
-            PageResult<User> users = userService.listUsers(page, count);
+            IPage<User> users = userService.listUsers(page, count);
             return ServerResponse.Success("查询成功", users);
         }
     }
@@ -187,7 +187,7 @@ public class UserController {
         if (uid == null || page == null || count == null) {
             return ServerResponse.Error();
         }else if(userService.isExistUid(uid)){
-            PageResult<User> users = userService.getUsersByUid(uid, page, count);
+            IPage<User> users = userService.getUsersByUid(uid, page, count);
             return ServerResponse.Success("查询成功",users);
         }else {
             return ServerResponse.ErrorMessage("用户不存在");
@@ -212,7 +212,7 @@ public class UserController {
         if ( number == null || page == null || count == null) {
             return ServerResponse.Error();
         }else if(userService.isExistNumber(number)){
-            PageResult<User> users = userService.getUsersByNumber( number, page, count);
+            IPage<User> users = userService.getUsersByNumber( number, page, count);
             return ServerResponse.Success("查询成功",users);
         }else{
             return ServerResponse.ErrorMessage("用户不存在");
@@ -238,7 +238,7 @@ public class UserController {
         if ( telephone == null || page == null || count == null) {
             return ServerResponse.Error();
         }else if(userService.isExistTelephone(telephone)){
-            PageResult<User> users = userService.getUsersByTelephone( telephone, page, count);
+            IPage<User> users = userService.getUsersByTelephone( telephone, page, count);
             return ServerResponse.Success("查询成功",users);
         }else{
             return ServerResponse.ErrorMessage("用户不存在");
@@ -264,7 +264,7 @@ public class UserController {
         if ( username == null || page == null || count == null) {
             return ServerResponse.Error();
         }else if(userService.isExistUsername(username)){
-            PageResult<User> users = userService.getUsersByUsername( username, page, count);
+            IPage<User> users = userService.getUsersByUsername( username, page, count);
             return ServerResponse.Success("查询成功",users);
         }else{
             return ServerResponse.ErrorMessage("用户不存在");
@@ -274,7 +274,7 @@ public class UserController {
 
     /*通过部门查询用户信息*/
     @GetMapping("getUsersByDepartment")
-    public ServerResponse getUsersByDepartment(Integer id,Integer page,Integer count) {
+    public ServerResponse getUsersByDepartment(Integer department,Integer page,Integer count) {
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()) {
@@ -289,10 +289,10 @@ public class UserController {
                 return ServerResponse.NeedLogin();
             }
         }
-        if ( id == null || page == null || count == null) {
+        if ( department == null || page == null || count == null) {
             return ServerResponse.Error();
-        } else if(departmentService.isExistDepartment(id)){
-            PageResult<User> users = userService.getUsersByDepartment(id, page, count);
+        } else if(departmentService.isExistDepartment(department)){
+            IPage<User>  users = userService.getUsersByDepartment(department, page, count);
             return ServerResponse.Success("查询成功", users);
         }else {
             return ServerResponse.ErrorMessage("部门不存在");

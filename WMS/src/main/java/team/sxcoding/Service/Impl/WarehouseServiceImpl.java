@@ -1,12 +1,13 @@
 package team.sxcoding.Service.Impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import team.sxcoding.Entity.Department;
-import team.sxcoding.Entity.PageResult;
+import team.sxcoding.Entity.Class;
+import team.sxcoding.Entity.Unit;
 import team.sxcoding.Entity.Warehouse;
 import team.sxcoding.Mapper.WarehouseMapper;
 import team.sxcoding.Service.WarehouseService;
@@ -20,7 +21,7 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
     /* 判断仓库是否存在*/
     @Override
     public boolean isExistWarehouse(Integer id){
-        if(baseMapper.isExistWarehouse(id)>0){
+        if(count(new QueryWrapper<Warehouse>().eq("id",id))>0){
             return true;
         }
         return false;
@@ -28,44 +29,33 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
 
     @Override
     public boolean isExistWarehouseName(String name){
-        if(baseMapper.isExistWarehouseName(name)>0){
+        if(count(new QueryWrapper<Warehouse>().eq("name",name))>0){
             return true;
         }
         return false;
     }
 
     @Override
-    public  PageResult<Warehouse> selectWarehouse(Integer page, Integer count){
-        Page<Warehouse> pageWarehouse = new Page<>(page,count);
-        IPage<Warehouse> warehouseList = baseMapper.selectWarehouse(pageWarehouse);
-
-        PageResult<Warehouse> pageResult = new PageResult<>();
-        pageResult.setPages(warehouseList.getPages());
-        pageResult.setData(warehouseList.getRecords());
-        return pageResult;
+    public  IPage<Warehouse> selectWarehouse(Integer page, Integer count){
+        return  page(new Page<>(page,count));
     }
 
     @Override
     public List<Warehouse> selectWarehouseIdAndName(){
-        return baseMapper.selectWarehouseIdAndName();
+        return baseMapper.selectList(new QueryWrapper<Warehouse>().select("id","name"));
     }
 
-    /*新建仓库*/
+    /*创建或修改仓库*/
     @Override
-    public boolean insertWarehouse(Warehouse warehouse){
-        return baseMapper.insertWarehouse(warehouse);
+    public boolean saveOrUpdateWarehouse(Warehouse warehouse){
+        return saveOrUpdate(warehouse);
     }
 
-    /*修改仓库*/
-    @Override
-    public boolean updateWarehouse(Warehouse warehouse){
-        return baseMapper.updateWarehouse(warehouse);
-    }
 
     /*删除仓库*/
     @Override
     public boolean deleteWarehouse(Integer id){
-        return  baseMapper.deleteWarehouseById(id);
+        return  removeById(id);
     }
 
 }

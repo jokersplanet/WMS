@@ -1,9 +1,6 @@
 package team.sxcoding.Entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -12,6 +9,7 @@ import java.math.BigDecimal;
 @TableName("warehouse")
 public class Warehouse {
 
+    @Version
     @TableId(type = IdType.AUTO)
     private Integer id;
 

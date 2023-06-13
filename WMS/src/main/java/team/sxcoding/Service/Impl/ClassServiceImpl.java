@@ -1,5 +1,6 @@
 package team.sxcoding.Service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import team.sxcoding.Entity.Class;
@@ -15,7 +16,7 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     /*判断class是否重复*/
     @Override
     public  boolean isExistClassId(Integer id){
-        if(baseMapper.isExistClassId(id)>0){
+        if(count(new QueryWrapper<Class>().eq("id",id))>0){
             return true;
         }
         return false;
@@ -23,7 +24,7 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
 
     @Override
     public  boolean isExistClassName(String name,Integer groupId){
-        if (baseMapper.isExistClassName(name,groupId)>0) {
+        if(count(new QueryWrapper<Class>().eq("name",name).eq("group_id",groupId))>0){
             return true;
         }
         return false;
@@ -32,36 +33,31 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     /*查询类别*/
     @Override
     public List<Class> selectClassByGroupId(Integer groupId){
-        return baseMapper.selectClassByGroupId(groupId);
+        return list(new QueryWrapper<Class>().eq("group_id",groupId));
     }
 
     @Override
     public List<Class> selectClassIdAndName(){
-        return baseMapper.selectClassIdAndName();
+        return baseMapper.selectList(new QueryWrapper<Class>().select("id","name"));
     }
 
-    /*增加类别*/
-    @Override
-    public boolean insertClassByGroupId(Class clazz){
-        return baseMapper.insertClassByGroupId(clazz);
-    }
 
     /*删除类别*/
     @Override
     public boolean deleteClassById(Integer id){
-        return baseMapper.deleteClassById(id);
+        return removeById(id);
     }
 
-    /*修改类别*/
+    /*增加或者修改类别*/
     @Override
-    public boolean updateClassById(Class clazz){
-        return baseMapper.updateClassById(clazz);
+    public boolean saveOrUpdateClass(Class clazz){
+        return saveOrUpdate(clazz);
     }
 
     /*删除大类下所有小类*/
     @Override
     public boolean deleteClassByGroupId(Integer groupId){
-        return baseMapper.deleteClassByGroupId(groupId);
+        return remove(new QueryWrapper<Class>().eq("group_id",groupId));
     }
 
 }
