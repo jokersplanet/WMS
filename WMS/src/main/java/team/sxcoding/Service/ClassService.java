@@ -2,7 +2,6 @@ package team.sxcoding.Service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import team.sxcoding.Entity.Class;
-import team.sxcoding.Entity.Group;
 
 import java.util.List;
 
@@ -13,10 +12,14 @@ public interface ClassService extends IService<Class> {
 
     boolean isExistClassName(String name,Integer groupId);
 
+    Class  selectClassByGroupIdAndName(Class clazz);
+
+    Class  selectClassById(Integer id);
+
     /*查询类别*/
     List<Class> selectClassByGroupId(Integer groupId);
 
-    List<Class> selectClassIdAndName();
+    List<Class> selectClass();
     ;
 
     /*删除类别*/

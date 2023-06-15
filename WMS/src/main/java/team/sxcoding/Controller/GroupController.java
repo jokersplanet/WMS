@@ -48,8 +48,7 @@ public class GroupController {
                 return ServerResponse.NeedLogin();
             }
         }
-        List<Group> Groups = groupService.selectGroups();
-        return ServerResponse.Success("查询成功", Groups);
+        return ServerResponse.Success("查询成功",  groupService.selectGroups());
     }
 
 
@@ -80,7 +79,7 @@ public class GroupController {
         }else if(groupService.isExistGroupName(group.getName())) {
             return ServerResponse.ErrorMessage("类别名重复");
         }else if(groupService.insertGroup(group)){
-            return ServerResponse.Success(groupService.selectGroupIdAndName());
+            return ServerResponse.Success(groupService.selectGroupByName(group.getName()));
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -114,7 +113,7 @@ public class GroupController {
         }else if(!groupService.isExistGroupId(id)){
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id) || !classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id)){
-            return ServerResponse.Success(groupService.selectGroupIdAndName());
+            return ServerResponse.Success(groupService.selectGroups());
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -142,12 +141,12 @@ public class GroupController {
             return ServerResponse.Forbidden();
         }
 
-        if(group.getId() == null){
+        if(group.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!groupService.isExistGroupId(group.getId())){
+        }else if(!groupService.isExistGroupId(group.getUid())){
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(groupService.updateGroupById(group)){
-            return ServerResponse.Success(groupService.selectGroupIdAndName());
+            return ServerResponse.Success(groupService.selectGroupById(group.getUid()));
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }

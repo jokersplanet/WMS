@@ -9,7 +9,7 @@ public class Department {
 
     @Version
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer uid;
 
     @TableField("name")
     private String name;

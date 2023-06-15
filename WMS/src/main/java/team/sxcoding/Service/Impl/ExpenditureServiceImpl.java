@@ -11,6 +11,7 @@ import team.sxcoding.Mapper.ExpenditureMapper;
 import team.sxcoding.Service.ExpenditureService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service("ExpenditureService")
@@ -22,10 +23,43 @@ public class ExpenditureServiceImpl extends ServiceImpl<ExpenditureMapper, Expen
         return page(new Page<>(page,count));
     }
 
+
+    @Override
+    public List<Expenditure> selectExpenditure(){
+        return list();
+    }
+
     /*根据时间查询支出*/
     @Override
     public IPage<Expenditure> selectExpenditureByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
         return page(new Page<>(page, count),new QueryWrapper<Expenditure>().between("time",startTime,endTime));
+    }
+
+    /*支出记录是否存在*/
+    @Override
+    public boolean isExistExpenditure(String uid){
+        if(count(new QueryWrapper<Expenditure>().eq("uid",uid))>0){
+            return true;
+        }
+        return false;
+    }
+
+    /*新建或修改支出*/
+    @Override
+    public boolean saveOrUpdateExpenditure(Expenditure expenditure){
+        return saveOrUpdate(expenditure);
+    }
+
+    /*返回插入或修改后的本条数据*/
+    @Override
+    public Expenditure selectExpenditureById(String uid){
+        return getById(uid);
+    }
+
+    /*删除支出记录*/
+    @Override
+    public boolean deleteExpenditureById(String uid){
+        return removeById(uid);
     }
 
 }

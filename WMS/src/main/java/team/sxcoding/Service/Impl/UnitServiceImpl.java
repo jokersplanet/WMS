@@ -3,8 +3,6 @@ package team.sxcoding.Service.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import team.sxcoding.Entity.Class;
-import team.sxcoding.Entity.Group;
 import team.sxcoding.Entity.Unit;
 import team.sxcoding.Mapper.UnitMapper;
 import team.sxcoding.Service.UnitService;
@@ -32,16 +30,22 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
         return false;
     }
 
+    @Override
+    public Unit selectUnitById(Integer id){
+        return getById(id);
+    }
+
+    @Override
+    public Unit selectUnitByName(String name){
+        return getOne(new QueryWrapper<Unit>().eq("name",name));
+    }
+
     /*查询单位*/
     @Override
     public List<Unit> selectUnits(){
         return list();
     }
 
-    @Override
-    public List<Unit> selectUnitIdAndName(){
-        return baseMapper.selectList(new QueryWrapper<Unit>().select("id","name"));
-    }
 
     /*增加或者修改单位*/
     @Override

@@ -1,42 +1,41 @@
 package team.sxcoding.Controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import team.sxcoding.Entity.Warehouse;
+import team.sxcoding.Config.ServerResponse;
+import team.sxcoding.Entity.Expenditure;
+import team.sxcoding.Entity.Income;
+import team.sxcoding.Service.IncomeService;
 import team.sxcoding.Service.UserService;
+import team.sxcoding.Utils.NextIdUtil;
 
 import javax.servlet.http.HttpServletRequest;
-import team.sxcoding.Config.ServerResponse;
-import team.sxcoding.Service.WarehouseService;
+import java.time.LocalDateTime;
 
-import java.math.BigDecimal;
-
+import static team.sxcoding.Utils.NextIdUtil.nextId;
 import static team.sxcoding.Utils.PermissionUtil.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/warehouse")
-public class WarehouseController {
-
-
-
+@RequestMapping("/income")
+public class IncomeController {
     @Autowired
-    UserService userService;
-
-    @Autowired
-    WarehouseService warehouseService;
-
+    private UserService userService;
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private IncomeService incomeService;
 
-    /*查询所有仓库*/
-    @GetMapping("selectWarehouse")
-    public ServerResponse selectWarehouse(Integer page,Integer count) {
+
+    /*查询所有收入*/
+    @GetMapping("getIncome")
+    public ServerResponse getIncome(Integer page , Integer count) {
         Claims claims = null;
         claims = getToken(request);
-        if (claims.isEmpty()) {
+        if (claims.isEmpty()){
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
@@ -44,21 +43,35 @@ public class WarehouseController {
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
-            } else {
+            }else {
                 return ServerResponse.NeedLogin();
             }
         }
-        if (page == null || count == null) {
-            return ServerResponse.Error();
-        } else {
-            return ServerResponse.Success("查询成功", warehouseService.selectWarehouse(page, count));
-        }
-
+        return ServerResponse.Success("查询成功", incomeService.selectIncome(page,count));
     }
 
-    /*创建仓库*/
-    @PostMapping("insertWarehouse")
-    public ServerResponse insertWarehouse(@RequestBody Warehouse warehouse){
+
+    @GetMapping("getIncomeByTime")
+    public ServerResponse getIncomeByTime(Integer page , Integer count, LocalDateTime startTime, LocalDateTime endTime){
+        Claims claims = null;
+        claims = getToken(request);
+        if (claims.isEmpty()){
+            return ServerResponse.NeedLoginMessage("请重新登录");
+        } else {
+            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
+                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
+                if (!isJwtLegal(claims, oldPrivilege)) {
+                    return ServerResponse.NeedLoginMessage("请重新登录");
+                }
+            }else {
+                return ServerResponse.NeedLogin();
+            }
+        }
+        return ServerResponse.Success("查询成功", incomeService.selectIncomeByTime(page,count,startTime,endTime));
+    }
+
+    @PostMapping("updateIncome")
+    public ServerResponse updateIncome(@RequestBody Income income){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -74,26 +87,23 @@ public class WarehouseController {
             }
         }
 
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
 
-        warehouse.setValue(BigDecimal.ZERO);
-
-        if(warehouse.getName() == null || warehouse.getHead() == null || warehouse.getAddress() == null){
+        if(income.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(warehouseService.isExistWarehouseName(warehouse.getName())){
-            return ServerResponse.ErrorMessage("仓库名重复");
-        }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
-                return ServerResponse.Success(warehouseService.selectWarehouseByName(warehouse.getName()));
+        }else if(!incomeService.isExistIncome(income.getUid())){
+            return ServerResponse.ErrorMessage("记录不存在");
+        }else if(incomeService.saveOrUpdateIncome(income)){
+            return ServerResponse.Success(incomeService.selectIncomeById(income.getUid()));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
-    /*修改仓库*/
-    @PostMapping("updateWarehouse")
-    public ServerResponse updateWarehouse(@RequestBody Warehouse warehouse) {
+    @GetMapping("deleteIncome")
+    public ServerResponse deleteIncome(String uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -109,24 +119,23 @@ public class WarehouseController {
             }
         }
 
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
 
-        if(warehouse.getUid() == null){
+        if( uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!warehouseService.isExistWarehouse(warehouse.getUid())) {
-            return ServerResponse.ErrorMessage("仓库不存在");
-        }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
-            return ServerResponse.Success(warehouseService.selectWarehouseById(warehouse.getUid()));
+        }else if(!incomeService.isExistIncome(uid)){
+            return ServerResponse.ErrorMessage("支出记录不存在");
+        }else if(incomeService.deleteIncomeById(uid)){
+            return ServerResponse.Success("删除成功",incomeService.selectIncome());
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
-    /*删除仓库*/
-    @GetMapping("deleteWarehouseById")
-    public ServerResponse deleteWarehouseById(Integer id){
+    @PostMapping("insertIncome")
+    public ServerResponse insertIncome(@RequestBody Income income){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -142,20 +151,17 @@ public class WarehouseController {
             }
         }
 
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
 
-        if(id == null){
+        if(income.getTime() == null || income.getValue() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!warehouseService.isExistWarehouse(id)){
-            return ServerResponse.ErrorMessage("仓库不存在");
-        }else if(warehouseService.deleteWarehouse(id)){
-            return ServerResponse.Success(warehouseService.selectWarehouse());
         }else{
-            return ServerResponse.ErrorMessage("操作失败");
+            //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
+            income.setUid("P"+ NextIdUtil.<Income>nextId());
+            incomeService.saveOrUpdateIncome(income);
+            return ServerResponse.Success(incomeService.selectIncomeById(income.getUid()));
         }
     }
-
-
 }

@@ -1,14 +1,16 @@
 package team.sxcoding.Entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
 @Data
-@TableName("expenditure")
-public class Expenditure {
-
+@TableName("income")
+public class Income {
     @TableId(type = IdType.INPUT)
     private String uid;
 
@@ -21,9 +23,11 @@ public class Expenditure {
     @TableField("value")
     private BigDecimal value;
 
-    @TableField("destination")
-    private String destination;
+    @TableField("origin")
+    private String origin;
 
     @TableField("notes")
     private String notes;
+
+
 }

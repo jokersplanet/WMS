@@ -28,16 +28,23 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
         return false;
     }
 
+    @Override
+    public Group  selectGroupById(Integer id){
+        return baseMapper.selectGroupById(id);
+    }
+
+    @Override
+    public Group selectGroupByName(String name){
+        return baseMapper.selectGroupByName(name);
+    }
+
     /*查询大类别*/
     @Override
     public List<Group> selectGroups(){
         return baseMapper.selectGroups();
     }
 
-    @Override
-    public List<Group> selectGroupIdAndName(){
-        return baseMapper.selectGroupIdAndName();
-    }
+
 
     /*增加大类别*/
     @Override

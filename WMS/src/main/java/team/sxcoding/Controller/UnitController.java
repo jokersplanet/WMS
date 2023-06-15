@@ -44,8 +44,7 @@ public class UnitController {
             }
         }
 
-        List<Unit> units = unitService.selectUnits();
-        return ServerResponse.Success("查询成功", units);
+        return ServerResponse.Success("查询成功", unitService.selectUnits());
     }
 
 
@@ -75,7 +74,7 @@ public class UnitController {
         }else if(unitService.isExistUnitName(unit.getName())){
             return ServerResponse.ErrorMessage("单位名重复");
         }else if(unitService.saveOrUpdateUnit(unit)){
-            return ServerResponse.Success(unitService.selectUnitIdAndName());
+            return ServerResponse.Success(unitService.selectUnitByName(unit.getName()));
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -107,7 +106,7 @@ public class UnitController {
         }else if(!unitService.isExistUnitId(id)){
             return ServerResponse.ErrorMessage("单位不存在");
         }else if(unitService.deleteUnitById(id)){
-            return ServerResponse.Success(unitService.selectUnitIdAndName());
+            return ServerResponse.Success(unitService.selectUnits());
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -133,12 +132,12 @@ public class UnitController {
         if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
-        if(unit.getId() == null){
+        if(unit.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!unitService.isExistUnitId(unit.getId())){
+        }else if(!unitService.isExistUnitId(unit.getUid())){
             return ServerResponse.ErrorMessage("单位不存在");
         }else if(unitService.saveOrUpdateUnit(unit)){
-            return ServerResponse.Success(unitService.selectUnitIdAndName());
+            return ServerResponse.Success(unitService.selectUnitById(unit.getUid()));
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }

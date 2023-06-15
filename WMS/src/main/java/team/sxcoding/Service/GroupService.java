@@ -12,10 +12,13 @@ public interface GroupService extends IService<Group> {
 
     boolean isExistGroupName(String name);
 
+    Group  selectGroupById(Integer id);
+
+    Group selectGroupByName(String name);
+
     /*查询大类别*/
     List<Group> selectGroups();
 
-    List<Group> selectGroupIdAndName();
 
     /*增加大类别*/
     boolean insertGroup(Group group);

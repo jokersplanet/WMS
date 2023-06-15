@@ -14,10 +14,14 @@ public interface DepartmentService extends IService<Department> {
 
     boolean isExistDepartmentName(String name);
 
+    Department selectDepartmentByName(String name);
+
+    Department selectDepartmentById(Integer id);
+
     /*列出部门*/
     IPage<Department> selectDepartment(Integer page, Integer count);
 
-    List<Department> selectDepartmentIdAndName();
+    List<Department> selectDepartment();
 
     /*创建或修改部门*/
     boolean saveOrUpdateDepartment(Department department);

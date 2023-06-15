@@ -16,7 +16,11 @@ public interface WarehouseService extends IService<Warehouse> {
     /*列出仓库*/
     IPage<Warehouse> selectWarehouse(Integer page, Integer count);
 
-    List<Warehouse> selectWarehouseIdAndName();
+    List<Warehouse> selectWarehouse();
+
+    Warehouse selectWarehouseById(Integer id);
+
+    Warehouse selectWarehouseByName(String name);
 
     /*创建或修改仓库*/
     boolean saveOrUpdateWarehouse(Warehouse warehouse);

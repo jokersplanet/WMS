@@ -50,15 +50,14 @@ public class DepartmentController {
         if ( page == null || count == null) {
             return ServerResponse.Error();
         }else {
-            IPage<Department> departments = departmentService.selectDepartment( page, count);
-            return ServerResponse.Success("查询成功", departments);
+            return ServerResponse.Success("查询成功", departmentService.selectDepartment( page, count));
         }
 
     }
 
     /*创建部门*/
     @PostMapping("insertDepartment")
-    public ServerResponse createDepartment(@RequestBody Department department){
+    public ServerResponse insertDepartment(@RequestBody Department department){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -83,7 +82,7 @@ public class DepartmentController {
         }else if(departmentService.isExistDepartmentName(department.getName())) {
             return ServerResponse.ErrorMessage("部门名重复");
         }else if(departmentService.saveOrUpdateDepartment(department)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
+            return ServerResponse.Success(departmentService.selectDepartmentByName(department.getName()));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -111,12 +110,12 @@ public class DepartmentController {
             return ServerResponse.Forbidden();
         }
 
-        if(department.getId() == null){
+        if(department.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!departmentService.isExistDepartment(department.getId())){
+        }else if(!departmentService.isExistDepartment(department.getUid())){
             return ServerResponse.ErrorMessage("部门不存在");
         }else if(departmentService.saveOrUpdateDepartment(department)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
+            return ServerResponse.Success(departmentService.selectDepartmentById(department.getUid()));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -150,7 +149,7 @@ public class DepartmentController {
         }else if(!departmentService.isExistDepartment(id)){
             return ServerResponse.ErrorMessage("部门不存在");
         }else if(departmentService.deleteDepartment(id)){
-            return ServerResponse.Success(departmentService.selectDepartmentIdAndName());
+            return ServerResponse.Success(departmentService.selectDepartment());
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }

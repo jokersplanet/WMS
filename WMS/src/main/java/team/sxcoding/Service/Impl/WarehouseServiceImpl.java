@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import team.sxcoding.Entity.Class;
-import team.sxcoding.Entity.Unit;
 import team.sxcoding.Entity.Warehouse;
 import team.sxcoding.Mapper.WarehouseMapper;
 import team.sxcoding.Service.WarehouseService;
@@ -40,11 +38,6 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
         return  page(new Page<>(page,count));
     }
 
-    @Override
-    public List<Warehouse> selectWarehouseIdAndName(){
-        return baseMapper.selectList(new QueryWrapper<Warehouse>().select("id","name"));
-    }
-
     /*创建或修改仓库*/
     @Override
     public boolean saveOrUpdateWarehouse(Warehouse warehouse){
@@ -57,5 +50,21 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
     public boolean deleteWarehouse(Integer id){
         return  removeById(id);
     }
+
+    @Override
+    public List<Warehouse> selectWarehouse(){
+        return list();
+    }
+
+    @Override
+    public Warehouse selectWarehouseById(Integer id){
+        return getById(id);
+    }
+
+    @Override
+    public Warehouse selectWarehouseByName(String name){
+        return getOne(new QueryWrapper<Warehouse>().eq("name",name));
+    }
+
 
 }

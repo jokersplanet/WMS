@@ -30,6 +30,16 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
         return false;
     }
 
+    @Override
+    public Class  selectClassByGroupIdAndName(Class clazz){
+        return getOne(new QueryWrapper<Class>().eq("name",clazz.getName()).eq("group_id",clazz.getGroupId()));
+    }
+
+    @Override
+    public Class  selectClassById(Integer uid){
+        return getOne(new QueryWrapper<Class>().eq("uid",uid));
+    }
+
     /*查询类别*/
     @Override
     public List<Class> selectClassByGroupId(Integer groupId){
@@ -37,8 +47,8 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     }
 
     @Override
-    public List<Class> selectClassIdAndName(){
-        return baseMapper.selectList(new QueryWrapper<Class>().select("id","name"));
+    public List<Class> selectClass(){
+        return list();
     }
 
 

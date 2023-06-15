@@ -11,7 +11,7 @@ public class Warehouse {
 
     @Version
     @TableId(type = IdType.AUTO)
-    private Integer id;
+    private Integer uid;
 
     @TableField("head")
     private String head;

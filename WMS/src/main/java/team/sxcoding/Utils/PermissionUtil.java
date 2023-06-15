@@ -94,6 +94,13 @@ public class PermissionUtil {
         }
     }
 
+    public static boolean isInsertPermissionLegal(Claims claims,User user){
+        if(((SUPER_ADMIN.getLevel().equals(claims.getSubject()) && ! user.getPrivilege().equals(SUPER_ADMIN.getLevel())) || (ADMIN.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()))) || (USER_MANAGER.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()) || user.getPrivilege().equals(USER_MANAGER.getLevel()))))){
+            return true;
+        }
+        return false;
+    }
+
     public  static boolean isAdmin(Claims claims){
         if(claims.getSubject().equals(SUPER_ADMIN.getLevel()) || claims.getSubject().equals(ADMIN.getLevel())){
             return true;
@@ -103,6 +110,13 @@ public class PermissionUtil {
 
     public static boolean isWarehousekeeper(Claims claims){
         if(claims.getSubject().equals(SUPER_ADMIN.getLevel()) || claims.getSubject().equals(ADMIN.getLevel()) || claims.getSubject().equals(WAREHOUSE_KEEPER.getLevel())){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isUserManager(Claims claims){
+        if(claims.getSubject().equals(SUPER_ADMIN.getLevel()) || claims.getSubject().equals(ADMIN.getLevel()) || claims.getSubject().equals(USER_MANAGER.getLevel())){
             return true;
         }
         return false;

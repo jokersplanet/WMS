@@ -2,9 +2,8 @@ package team.sxcoding.Mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Component;
-import team.sxcoding.Entity.Department;
-
+import team.sxcoding.Entity.InboundRecords;
 
 @Component
-public interface DepartmentMapper  extends BaseMapper<Department> {
+public interface InboundRecordsMapper extends BaseMapper<InboundRecords> {
 }

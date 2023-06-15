@@ -32,6 +32,16 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         return false;
     }
 
+    @Override
+    public Department selectDepartmentByName(String name){
+        return getOne(new QueryWrapper<Department>().eq("name",name));
+    }
+
+    @Override
+    public Department selectDepartmentById(Integer uid){
+        return getById(uid);
+    }
+
     /*列出部门*/
     @Override
     public IPage<Department> selectDepartment(Integer page, Integer count){
@@ -39,8 +49,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    public List<Department> selectDepartmentIdAndName(){
-        return baseMapper.selectList(new QueryWrapper<Department>().select("id","name"));
+    public List<Department> selectDepartment(){
+        return list();
     }
 
     /*创建或修改部门*/

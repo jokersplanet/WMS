@@ -72,7 +72,7 @@ public class LoginController {
             }
         }
 
-        if(!((SUPER_ADMIN.getLevel().equals(claims.getSubject()) && ! user.getPrivilege().equals(SUPER_ADMIN.getLevel())) || (ADMIN.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()))) || (USER_MANAGER.getLevel().equals(claims.getSubject()) && !( user.getPrivilege().equals(SUPER_ADMIN.getLevel()) || user.getPrivilege().equals(ADMIN.getLevel()) || user.getPrivilege().equals(USER_MANAGER.getLevel()))))){
+        if(!isInsertPermissionLegal(claims,user)){
             return ServerResponse.Forbidden();
         }
 

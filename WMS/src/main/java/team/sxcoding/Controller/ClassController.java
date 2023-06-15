@@ -10,7 +10,6 @@ import team.sxcoding.Service.GroupService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 import static team.sxcoding.Utils.PermissionUtil.*;
 
@@ -47,8 +46,7 @@ public class ClassController {
             }
         }
 
-        List<Class> classes = classService.selectClassByGroupId(groupid);
-        return ServerResponse.Success("查询成功", classes);
+        return ServerResponse.Success("查询成功", classService.selectClassByGroupId(groupid));
     }
 
 
@@ -80,7 +78,7 @@ public class ClassController {
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("该类已存在");
         }else if(classService.saveOrUpdateClass(clazz)){
-            return ServerResponse.Success(classService.selectClassIdAndName());
+            return ServerResponse.Success(classService.selectClassByGroupIdAndName(clazz));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -105,14 +103,14 @@ public class ClassController {
         if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
-        if(clazz.getId() == null){
+        if(clazz.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!classService.isExistClassId(clazz.getId()) || !groupService.isExistGroupId(clazz.getGroupId())){
+        }else if(!classService.isExistClassId(clazz.getUid()) || !groupService.isExistGroupId(clazz.getGroupId())){
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("类别已存在");
         } else if(classService.saveOrUpdateClass(clazz)){
-            return ServerResponse.Success(classService.selectClassIdAndName());
+            return ServerResponse.Success(classService.selectClassById(clazz.getUid()));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -142,7 +140,7 @@ public class ClassController {
         }else if(!classService.isExistClassId(id)){
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(classService.deleteClassById(id)){
-            return ServerResponse.Success(classService.selectClassIdAndName());
+            return ServerResponse.Success(classService.selectClass());
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -173,7 +171,7 @@ public class ClassController {
         }else if (!groupService.isExistGroupId(groupId)) {
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(classService.deleteClassByGroupId(groupId)){
-            return ServerResponse.Success(classService.selectClassIdAndName());
+            return ServerResponse.Success(classService.selectClass());
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }
