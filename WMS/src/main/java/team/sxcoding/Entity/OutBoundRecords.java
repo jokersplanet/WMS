@@ -8,7 +8,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 @Data
-@TableName("inbound_records")
+@TableName("outbound_records")
 public class OutboundRecords {
     @TableId(type = IdType.INPUT)
     private String uid;
