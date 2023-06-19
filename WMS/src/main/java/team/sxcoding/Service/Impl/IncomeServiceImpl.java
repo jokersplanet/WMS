@@ -10,9 +10,12 @@ import team.sxcoding.Entity.Income;
 
 import team.sxcoding.Mapper.IncomeMapper;
 import team.sxcoding.Service.IncomeService;
+import team.sxcoding.Utils.NextIdUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static team.sxcoding.Utils.NextIdUtil.getDate;
 
 
 @Service("IncomeService")
@@ -61,6 +64,18 @@ public class IncomeServiceImpl extends ServiceImpl<IncomeMapper, Income> impleme
     @Override
     public boolean deleteIncomeById(String uid){
         return removeById(uid);
+    }
+
+    /*获取下一个id*/
+    @Override
+    public String getNextId(){
+        String date = getDate();
+        Income income = getOne(new QueryWrapper<Income>().like("uid",date).orderByDesc("uid").last("LIMIT 1"));
+        String maxId = null;
+        if (income != null) {
+            maxId = income.getUid();
+        }
+        return NextIdUtil.getNextId(date,maxId);
     }
 
 }

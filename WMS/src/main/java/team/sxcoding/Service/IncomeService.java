@@ -30,4 +30,7 @@ public interface IncomeService extends IService<Income> {
 
     /*删除支出记录*/
     boolean deleteIncomeById(String uid);
+
+    /*获取下一个id*/
+    String getNextId();
 }

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @TableName("inbound_records")
 public class InboundRecords {
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.AUTO)
     private String uid;
 
     @TableField("time")
@@ -22,8 +22,8 @@ public class InboundRecords {
     @TableField("count")
     private Long count;
 
-    @TableField("name")
-    private String name;
+    @TableField("notes")
+    private String notes;
 
 
     @TableField("value")

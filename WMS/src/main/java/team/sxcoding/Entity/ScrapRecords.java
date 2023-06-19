@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Data
 @TableName("scrap_records")
 public class ScrapRecords {
-    @TableId(type = IdType.INPUT)
+    @TableId(type = IdType.AUTO)
     private String uid;
 
     @TableField("time")
@@ -23,8 +23,8 @@ public class ScrapRecords {
     @TableField("count")
     private Long count;
 
-    @TableField("name")
-    private String name;
+    @TableField("notes")
+    private String notes;
 
 
     @TableField("value")

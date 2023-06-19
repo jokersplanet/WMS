@@ -27,6 +27,9 @@ public interface ExpenditureService extends IService<Expenditure> {
     /*返回插入或修改后的本条数据*/
     Expenditure selectExpenditureById(String uid);
 
+    /*返回下一个id*/
+    String getNextId();
+
     /*删除支出记录*/
     boolean deleteExpenditureById(String uid);
 

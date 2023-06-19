@@ -1,22 +1,18 @@
 package team.sxcoding.Controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.Expenditure;
-import team.sxcoding.Entity.Income;
 import team.sxcoding.Service.ExpenditureService;
 import team.sxcoding.Service.UserService;
-import team.sxcoding.Utils.NextIdUtil;
+
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
-
-import static team.sxcoding.Utils.NextIdUtil.nextId;
 import static team.sxcoding.Utils.PermissionUtil.*;
 
 @RestController
@@ -161,7 +157,7 @@ public class ExpenditureController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else{
             //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
-               expenditure.setUid("L"+ NextIdUtil.<Expenditure>nextId());
+               expenditure.setUid("L"+ expenditureService.getNextId());
                expenditureService.saveOrUpdateExpenditure(expenditure);
                return ServerResponse.Success(expenditureService.selectExpenditureById(expenditure.getUid()));
         }

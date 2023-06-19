@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 import team.sxcoding.Entity.Expenditure;
 import team.sxcoding.Mapper.ExpenditureMapper;
 import team.sxcoding.Service.ExpenditureService;
+import team.sxcoding.Utils.NextIdUtil;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static team.sxcoding.Utils.NextIdUtil.getDate;
 
 
 @Service("ExpenditureService")
@@ -61,5 +64,19 @@ public class ExpenditureServiceImpl extends ServiceImpl<ExpenditureMapper, Expen
     public boolean deleteExpenditureById(String uid){
         return removeById(uid);
     }
+
+
+    /*返回下一个id*/
+    @Override
+    public String getNextId(){
+        String date = getDate();
+        Expenditure expenditure = getOne(new QueryWrapper<Expenditure>().like("uid",date).orderByDesc("uid").last("LIMIT 1"));
+        String maxId = null;
+        if (expenditure != null) {
+             maxId = expenditure.getUid();
+        }
+        return NextIdUtil.getNextId(date,maxId);
+    }
+
 
 }

@@ -14,8 +14,8 @@ public class Income {
     @TableId(type = IdType.INPUT)
     private String uid;
 
-    @TableField("record_number")
-    private String recordNumber;
+    @TableField("record_uid")
+    private String recordUid;
 
     @TableField("time")
     private String time;
