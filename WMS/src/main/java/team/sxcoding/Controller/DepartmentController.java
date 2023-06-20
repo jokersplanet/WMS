@@ -82,7 +82,7 @@ public class DepartmentController {
         }else if(departmentService.isExistDepartmentName(department.getName())) {
             return ServerResponse.ErrorMessage("部门名重复");
         }else if(departmentService.saveOrUpdateDepartment(department)){
-            return ServerResponse.Success(departmentService.selectDepartmentByName(department.getName()));
+            return ServerResponse.Success(department);
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }

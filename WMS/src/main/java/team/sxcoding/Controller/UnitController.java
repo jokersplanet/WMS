@@ -74,7 +74,7 @@ public class UnitController {
         }else if(unitService.isExistUnitName(unit.getName())){
             return ServerResponse.ErrorMessage("单位名重复");
         }else if(unitService.saveOrUpdateUnit(unit)){
-            return ServerResponse.Success(unitService.selectUnitByName(unit.getName()));
+            return ServerResponse.Success(unit);
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }

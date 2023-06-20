@@ -159,7 +159,7 @@ public class ExpenditureController {
             //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
                expenditure.setUid("L"+ expenditureService.getNextId());
                expenditureService.saveOrUpdateExpenditure(expenditure);
-               return ServerResponse.Success(expenditureService.selectExpenditureById(expenditure.getUid()));
+               return ServerResponse.Success(expenditure);
         }
     }
 

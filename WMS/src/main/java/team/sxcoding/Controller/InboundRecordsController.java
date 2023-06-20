@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.InboundRecords;
+import team.sxcoding.Entity.User;
 import team.sxcoding.Service.InboundRecordsService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 import static team.sxcoding.Utils.PermissionUtil.*;
 
 @RestController
@@ -47,7 +49,7 @@ public class InboundRecordsController {
                 return ServerResponse.NeedLogin();
             }
         }
-        return ServerResponse.Success("查询成功", inboundRecordsService.selectExpenditure(page,count));
+        return ServerResponse.Success("查询成功", inboundRecordsService.selectInboundRecords(page,count));
     }
 
 
@@ -67,7 +69,7 @@ public class InboundRecordsController {
                 return ServerResponse.NeedLogin();
             }
         }
-        return ServerResponse.Success("查询成功", InboundRecordsService.selectInboundRecordsByTime(page,count,startTime,endTime));
+        return ServerResponse.Success("查询成功", inboundRecordsService.selectInboundRecordsByTime(page,count,startTime,endTime));
     }
 
     @PostMapping("updateInboundRecords")
@@ -87,16 +89,16 @@ public class InboundRecordsController {
             }
         }
 
-        if(!isWarehousekeeper(claims)){
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
         }
 
         if(inboundRecords.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!InboundRecordsService.isExistInboundRecords(inboundRecords.getUid())){
+        }else if(!inboundRecordsService.isExistInboundRecords(inboundRecords.getUid())){
             return ServerResponse.ErrorMessage("记录不存在");
-        }else if(InboundRecordsService.saveOrUpdateInboundRecords(inboundRecords)){
-            return ServerResponse.Success(InboundRecordsService.selectInboundRecordsById(inboundRecords.getUid()));
+        }else if(inboundRecordsService.saveOrUpdateInboundRecords(inboundRecords)){
+            return ServerResponse.Success(inboundRecordsService.selectInboundRecordsById(inboundRecords.getUid()));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
@@ -119,7 +121,7 @@ public class InboundRecordsController {
             }
         }
 
-        if(!isWarehousekeeper(claims)){
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
         }
 
@@ -138,11 +140,13 @@ public class InboundRecordsController {
     public ServerResponse insertInboundRecords(@RequestBody InboundRecords inboundRecords){
         Claims claims = null;
         claims = getToken(request);
+        User user = new User();
         if (claims.isEmpty()){
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
-                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
+                user = userService.selectUserByUid(Integer.valueOf(claims.getId()));
+                String oldPrivilege = user.getPrivilege();
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
@@ -155,13 +159,15 @@ public class InboundRecordsController {
             return ServerResponse.Forbidden();
         }
 
-        if(inboundRecords.getTime() == null || InboundRecords.getValue() == null){
+        inboundRecords.setUsername(user.getUsername());
+        inboundRecords.setUserNumber(user.getNumber());
+
+        if(inboundRecords.getTime() == null || inboundRecords.getGoodsName() == null || inboundRecords.getCount() == null || inboundRecords.getPrice() == null || inboundRecords.getUsername() == null || inboundRecords.getUserNumber() == null || inboundRecords.getValue() == null || inboundRecords.getWarehouseUid() == null || inboundRecords.getGoodsUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
+        }else if(inboundRecordsService.saveOrUpdateInboundRecords(inboundRecords)){
+            return ServerResponse.Success(inboundRecords);
         }else{
-            //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
-            expenditure.setUid("L"+ expenditureService.getNextId());
-            expenditureService.saveOrUpdateExpenditure(expenditure);
-            return ServerResponse.Success(expenditureService.selectExpenditureById(expenditure.getUid()));
+            return ServerResponse.ErrorMessage("操作失败");
         }
     }
 

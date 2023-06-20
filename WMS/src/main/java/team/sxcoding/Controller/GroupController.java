@@ -79,7 +79,7 @@ public class GroupController {
         }else if(groupService.isExistGroupName(group.getName())) {
             return ServerResponse.ErrorMessage("类别名重复");
         }else if(groupService.insertGroup(group)){
-            return ServerResponse.Success(groupService.selectGroupByName(group.getName()));
+            return ServerResponse.Success(group);
         }else {
             return ServerResponse.ErrorMessage("操作失败");
         }

@@ -6,8 +6,13 @@ import org.springframework.stereotype.Service;
 import team.sxcoding.Entity.Class;
 import team.sxcoding.Mapper.ClassMapper;
 import team.sxcoding.Service.ClassService;
+import team.sxcoding.Utils.System;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+
 
 
 @Service("ClassService")
@@ -30,10 +35,6 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
         return false;
     }
 
-    @Override
-    public Class  selectClassByGroupIdAndName(Class clazz){
-        return getOne(new QueryWrapper<Class>().eq("name",clazz.getName()).eq("group_id",clazz.getGroupId()));
-    }
 
     @Override
     public Class  selectClassById(Integer uid){
@@ -69,5 +70,22 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
     public boolean deleteClassByGroupId(Integer groupId){
         return remove(new QueryWrapper<Class>().eq("group_id",groupId));
     }
+
+    /*获取下一个id*/
+    @Override
+    public Integer getNextId(){
+        Set<Integer> uidSet = new HashSet<>();
+        List<Class> listId = baseMapper.selectList(new QueryWrapper<Class>().select("uid"));
+        for(Class clazz: listId){
+            uidSet.add(clazz.getUid());
+        }
+        for(Integer count = 0; count < System.CLASS_SIZE ; count++){
+            if(!uidSet.contains(count)){
+                return count;
+            }
+        }
+        return -1;
+    }
+
 
 }

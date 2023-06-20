@@ -9,7 +9,7 @@ import lombok.Data;
 public class Class {
 
     @Version
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.INPUT)
     private Integer uid;
 
     @TableField("name")

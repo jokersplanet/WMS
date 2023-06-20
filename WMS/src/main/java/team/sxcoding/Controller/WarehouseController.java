@@ -85,7 +85,7 @@ public class WarehouseController {
         }else if(warehouseService.isExistWarehouseName(warehouse.getName())){
             return ServerResponse.ErrorMessage("仓库名重复");
         }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
-                return ServerResponse.Success(warehouseService.selectWarehouseByName(warehouse.getName()));
+                return ServerResponse.Success(warehouse);
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }

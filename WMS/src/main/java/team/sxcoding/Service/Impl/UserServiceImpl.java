@@ -49,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /*根据uid查询用户信息*/
     @Override
     public User selectUserByUid(Integer uid){
-        return getById(uid);
+        return baseMapper.getOneById(uid);
     }
 
      /*判断uid是否存在*/
@@ -65,50 +65,50 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /*根据员工编号查询用户信息*/
     @Override
     public User selectUserByNumber(String number){
-        return getOne(new QueryWrapper<User>().eq("number",number));
+        return baseMapper.getOneByNumber(number);
     }
 
     /*根据电话号码查询用户信息*/
     @Override
     public User selectUserByTelephone(String telephone){
-        return getOne(new QueryWrapper<User>().eq("telephone",telephone));
+        return baseMapper.getOneByTelephone(telephone);
     }
 
 
     /*分页显示所有用户*/
     @Override
     public IPage<User> listUsers(Integer page,Integer count){
-        return page(new Page<>(page,count));
+        return baseMapper.listUsers(new Page<>(page, count));
     }
 
     /*根据uid查询用户信息（模糊查询）*/
     @Override
     public IPage<User> getUsersByUid(Integer uid, Integer page, Integer count){
-        return page(new Page<>(page,count),new QueryWrapper<User>().like("uid",uid));
+        return baseMapper.listUsersByUid(new Page<>(page,count),uid);
     }
 
     /*根据员工编号查询用户信息（模糊查询）*/
     @Override
     public IPage<User> getUsersByNumber(String number,Integer page,Integer count){
-        return page(new Page<>(page,count),new QueryWrapper<User>().like("number",number));
+        return baseMapper.listUsersByNumber(new Page<>(page,count),number);
     }
 
     /*根据电话号查询用户信息（模糊查询）*/
     @Override
     public IPage<User> getUsersByTelephone(String telephone, Integer page, Integer count){
-        return page(new Page<>(page,count),new QueryWrapper<User>().like("telephone",telephone));
+        return baseMapper.listUsersByTelephone(new Page<>(page,count),telephone);
     }
 
     /*根据姓名查询用户信息（模糊查询）*/
     @Override
     public IPage<User> getUsersByUsername(String username,Integer page,Integer count){
-        return page(new Page<>(page,count),new QueryWrapper<User>().like("username",username));
+        return baseMapper.listUsersByUsername(new Page<>(page,count),username);
     }
 
     /*根据部门查询用户信息（模糊查询）*/
     @Override
     public  IPage<User> getUsersByDepartment(Integer department,Integer page,Integer count){
-        return page(new Page<>(page,count),new QueryWrapper<User>().like("department",department));
+        return baseMapper.listUsersByDepartment(new Page<>(page,count),department);
     }
 
 

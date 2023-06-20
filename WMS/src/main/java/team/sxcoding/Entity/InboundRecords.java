@@ -19,6 +19,9 @@ public class InboundRecords {
     @TableField("goods_uid")
     private String goodsUid;
 
+    @TableField("goods_name")
+    private String goodsName;
+
     @TableField("count")
     private Long count;
 
@@ -32,9 +35,13 @@ public class InboundRecords {
     @TableField("price")
     private BigDecimal price;
 
-    @TableField("supplier")
-    private String supplier;
+    @TableField("username")
+    private String username;
 
-    @TableField("warehouse_number")
-    private String warehouseNumber;
+
+    @TableField("user_number")
+    private String userNumber;
+
+    @TableField("warehouse_uid")
+    private String warehouseUid;
 }

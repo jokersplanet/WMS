@@ -77,10 +77,13 @@ public class ClassController {
            return ServerResponse.ErrorMessage("大类不存在");
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("该类已存在");
-        }else if(classService.saveOrUpdateClass(clazz)){
-            return ServerResponse.Success(classService.selectClassByGroupIdAndName(clazz));
         }else{
-            return ServerResponse.ErrorMessage("操作失败");
+            clazz.setUid(classService.getNextId());
+            if(clazz.getUid()<0){
+                return ServerResponse.ErrorMessage("小类创建数量上限，请删除部分后重新创建");
+            }
+            classService.saveOrUpdateClass(clazz);
+            return ServerResponse.Success(clazz);
         }
     }
 

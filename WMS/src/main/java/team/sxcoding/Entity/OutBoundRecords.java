@@ -19,6 +19,9 @@ public class OutboundRecords {
     @TableField("goods_uid")
     private String goodsUid;
 
+    @TableField("goods_name")
+    private String goodsName;
+
     @TableField("count")
     private Long count;
 
@@ -32,9 +35,12 @@ public class OutboundRecords {
     @TableField("price")
     private BigDecimal price;
 
-    @TableField("custom")
-    private String custom;
+    @TableField("username")
+    private String username;
 
-    @TableField("warehouse_number")
-    private String warehouseNumber;
+    @TableField("user_number")
+    private String userNumber;
+
+    @TableField("warehouse_uid")
+    private String warehouseUid;
 }

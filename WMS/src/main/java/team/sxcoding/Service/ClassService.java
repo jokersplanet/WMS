@@ -12,7 +12,6 @@ public interface ClassService extends IService<Class> {
 
     boolean isExistClassName(String name,Integer groupId);
 
-    Class  selectClassByGroupIdAndName(Class clazz);
 
     Class  selectClassById(Integer id);
 
@@ -30,6 +29,9 @@ public interface ClassService extends IService<Class> {
 
     /*删除大类下所有小类*/
     boolean deleteClassByGroupId(Integer groupId);
+
+    /*获取下一个id*/
+    Integer getNextId();
 
 
 }

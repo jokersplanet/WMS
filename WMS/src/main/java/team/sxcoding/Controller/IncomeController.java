@@ -161,7 +161,7 @@ public class IncomeController {
             //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
             income.setUid("P"+ incomeService.getNextId());
             incomeService.saveOrUpdateIncome(income);
-            return ServerResponse.Success(incomeService.selectIncomeById(income.getUid()));
+            return ServerResponse.Success(income);
         }
     }
 }

@@ -20,12 +20,14 @@ public class ScrapRecords {
     @TableField("goods_uid")
     private String goodsUid;
 
+    @TableField("goods_name")
+    private String goodsName;
+
     @TableField("count")
     private Long count;
 
     @TableField("notes")
     private String notes;
-
 
     @TableField("value")
     private BigDecimal value;
@@ -33,9 +35,12 @@ public class ScrapRecords {
     @TableField("price")
     private BigDecimal price;
 
-    @TableField("reason")
-    private String reason;
+    @TableField("username")
+    private String username;
 
-    @TableField("warehouse_number")
-    private String warehouseNumber;
+    @TableField("user_number")
+    private String userNumber;
+
+    @TableField("warehouse_uid")
+    private String warehouseUid;
 }
