@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.User;
+import team.sxcoding.Service.DepartmentService;
 import team.sxcoding.Service.UserService;
 
 
 import javax.servlet.http.HttpServletRequest;
 
-import static team.sxcoding.Config.PermissionLevel.*;
 import static team.sxcoding.Utils.MD5Util.*;
 import static team.sxcoding.Utils.JwtUtil.*;
 import static team.sxcoding.Utils.PermissionUtil.*;
@@ -28,6 +28,9 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     /*登录*/
     @PostMapping("/login")
@@ -76,14 +79,19 @@ public class LoginController {
             return ServerResponse.Forbidden();
         }
 
-        if(user.getUsername().equals(null)||user.getNumber().equals(null)||user.getPassword().equals(null)||user.getGender().equals(null)||user.getPrivilege().equals(null)||user.getTelephone().equals(null)){
+         //查看注册的部门是否存在
+
+        if(user.getUsername() == null || user.getNumber() == null ||user.getPassword() == null || user.getGender() == null||user.getPrivilege() == null ||user.getTelephone() == null || user.getDepartment() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(userService.isExistNumber(user.getNumber())||userService.isExistTelephone(user.getTelephone())){
             return ServerResponse.ErrorMessage("员工编号或手机号重复");
+        }else if(!departmentService.isExistDepartment(user.getDepartment())){
+            return ServerResponse.ErrorMessage("部门不存在");
         }else{
-            user.setPassword(encrypt(user.getPassword()));
-            user=userService.register(user);
-            return ServerResponse.Success("创建成功",user);
+                user.setPassword(encrypt(user.getPassword()));
+                user=userService.register(user);
+                return ServerResponse.Success("创建成功",user);
+
         }
     }
 

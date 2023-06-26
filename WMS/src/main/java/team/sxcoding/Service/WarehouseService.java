@@ -20,7 +20,7 @@ public interface WarehouseService extends IService<Warehouse> {
 
     Warehouse selectWarehouseById(Integer id);
 
-    Warehouse selectWarehouseByName(String name);
+
 
     /*创建或修改仓库*/
     boolean saveOrUpdateWarehouse(Warehouse warehouse);

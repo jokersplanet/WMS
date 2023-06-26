@@ -28,4 +28,6 @@ public interface GroupService extends IService<Group> {
 
     /*修改类别*/
     boolean updateGroupById(Group group);
+
+
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.Unit;
+import team.sxcoding.Service.GoodsService;
 import team.sxcoding.Service.UnitService;
 import team.sxcoding.Service.UserService;
 
@@ -25,6 +26,9 @@ public class UnitController {
 
     @Autowired
     private UnitService unitService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     /*查询单位*/
     @GetMapping("getUnit")
@@ -105,6 +109,8 @@ public class UnitController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!unitService.isExistUnitId(id)){
             return ServerResponse.ErrorMessage("单位不存在");
+        }else if(goodsService.isExistUnity(id)) {
+            return ServerResponse.ErrorMessage("该类下存在货物无法删除");
         }else if(unitService.deleteUnitById(id)){
             return ServerResponse.Success(unitService.selectUnits());
         }else {

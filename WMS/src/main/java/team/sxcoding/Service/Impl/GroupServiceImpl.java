@@ -6,7 +6,9 @@ import team.sxcoding.Entity.Group;
 import team.sxcoding.Mapper.GroupMapper;
 import team.sxcoding.Service.GroupService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("GroupService")
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements GroupService {
@@ -61,6 +63,8 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     /*修改类别*/
     @Override
     public boolean updateGroupById(Group group){
-        return updateById(group);
+        return baseMapper.updateGroupById(group);
     }
+
+
 }

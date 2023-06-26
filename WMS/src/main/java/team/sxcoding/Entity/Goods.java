@@ -39,18 +39,16 @@ public class Goods {
     @TableField("upper_limit")
     private Long upperLimit;
 
-    @TableField("type")
-    private String type;
 
-    @TableField("class")
-    private String clazz;
+    @TableField("class_uid")
+    private Integer classUid;
 
-    @TableField("group")
-    private String group;
+    @TableField("group_uid")
+    private Integer groupUid;
 
-    @TableField("unity")
-    private String unity;
+    @TableField("unit_uid")
+    private Integer unitUid;
 
     @TableField("warehouse_uid")
-    private String warehouseUid;
+    private Integer warehouseUid;
 }

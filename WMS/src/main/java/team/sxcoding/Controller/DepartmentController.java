@@ -148,7 +148,9 @@ public class DepartmentController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!departmentService.isExistDepartment(id)){
             return ServerResponse.ErrorMessage("部门不存在");
-        }else if(departmentService.deleteDepartment(id)){
+        }else if(userService.isExistDepartment(id)){
+            return ServerResponse.ErrorMessage("部门下存在用户无法删除");
+        } else if(departmentService.deleteDepartment(id)){
             return ServerResponse.Success(departmentService.selectDepartment());
         }else{
             return ServerResponse.ErrorMessage("操作失败");

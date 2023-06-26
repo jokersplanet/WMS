@@ -8,7 +8,7 @@ import lombok.Data;
 public class Group {
 
     @Version
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.INPUT)
     private Integer uid;
 
     @TableField("name")

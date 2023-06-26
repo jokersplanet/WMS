@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Warehouse {
 
     @Version
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.INPUT)
     private Integer uid;
 
     @TableField("head")

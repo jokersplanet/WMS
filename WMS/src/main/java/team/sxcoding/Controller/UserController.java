@@ -339,12 +339,21 @@ public class UserController {
             user.setTelephone(oldUser.getTelephone());
         }
 
+        if (user.getDepartment() == null) {
+            user.setDepartment(oldUser.getDepartment());
+        }
+
         if(userService.isExistNumber(user.getNumber()) && !( userService.selectUserByNumber(user.getNumber()).getUid().equals(user.getUid()))){
             return ServerResponse.ErrorMessage("员工编号已存在");
         }
 
         if(userService.isExistTelephone(user.getTelephone()) && !( userService.selectUserByTelephone(user.getTelephone()).getUid().equals(user.getUid()))){
             return ServerResponse.ErrorMessage("电话号码已存在");
+        }
+
+        /*查看修改后的部门是否存在*/
+        if(departmentService.isExistDepartment(user.getDepartment())){
+            return ServerResponse.ErrorMessage("部门不存在");
         }
 
         if(isUpdatePermissionIllegal(claims,user,oldUser)){

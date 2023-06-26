@@ -12,32 +12,32 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserMapper extends BaseMapper<User> {
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.uid = #{uid} ;")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.uid = #{uid}")
     User getOneById(@Param("uid") Integer uid);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.number = #{number} ;")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.number = #{number}")
     User getOneByNumber(@Param("number") String number);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.telephone = #{telephone} ;")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.telephone = #{telephone}")
     User getOneByTelephone(@Param("telephone") String telephone);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid;")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid")
     IPage<User> listUsers(Page<User> page);
 
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.uid LIKE '%' || #{uid} || '%';")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.uid LIKE '%' || #{uid} || '%'")
     IPage<User> listUsersByUid(Page<User> page,@Param("uid")Integer uid);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.number LIKE '%' || #{number} || '%';")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.number LIKE '%' || #{number} || '%'")
     IPage<User> listUsersByNumber(Page<User> page,@Param("number")String number);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.telephone LIKE '%' || #{telephone} || '%';")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.telephone LIKE '%' || #{telephone} || '%'")
     IPage<User> listUsersByTelephone(Page<User> page,@Param("telephone")String telephone);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.username LIKE '%' || #{username} || '%';")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.username LIKE '%' || #{username} || '%'")
     IPage<User> listUsersByUsername(Page<User> page,@Param("username")String username);
 
-    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.department LIKE '%' || #{department} || '%';")
+    @Select("SELECT user.*, department.name FROM user LEFT JOIN department ON user.department = department.uid WHERE user.department LIKE '%' || #{department} || '%'")
     IPage<User> listUsersByDepartment(Page<User> page,@Param("department")Integer department);
 
 
