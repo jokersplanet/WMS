@@ -25,6 +25,9 @@ public interface UserService extends IService<User>{
     /*判断uid是否存在*/
     boolean isExistUid(Integer uid);
 
+    /*判断部门是否存在*/
+    boolean isExistDepartment(Integer uid);
+
     /*根据uid查询用户信息*/
     User selectUserByUid(Integer uid);
 

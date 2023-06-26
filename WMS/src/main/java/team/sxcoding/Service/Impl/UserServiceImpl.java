@@ -61,6 +61,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return false;
     }
 
+    /*判断部门下是否存在用户*/
+    @Override
+    public boolean isExistDepartment(Integer department){
+        if(count(new QueryWrapper<User>().eq("department",department))>0){
+            return true;
+        }
+        return false;
+    }
+
 
     /*根据员工编号查询用户信息*/
     @Override

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.Class;
 import team.sxcoding.Service.ClassService;
+import team.sxcoding.Service.GoodsService;
 import team.sxcoding.Service.GroupService;
 import team.sxcoding.Service.UserService;
 
@@ -28,6 +29,9 @@ public class ClassController {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     @GetMapping("getClassByGroupId")
     public ServerResponse getClassByGroupId(Integer groupid){
@@ -73,18 +77,14 @@ public class ClassController {
 
         if(clazz.getName() == null || clazz.getGroupId() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!groupService.isExistGroupId(clazz.getGroupId() )){
+        }else if(!groupService.isExistGroupId(clazz.getGroupId())){
            return ServerResponse.ErrorMessage("大类不存在");
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("该类已存在");
         }else{
-            clazz.setUid(classService.getNextId());
-            if(clazz.getUid()<0){
-                return ServerResponse.ErrorMessage("小类创建数量上限，请删除部分后重新创建");
+                classService.saveOrUpdateClass(clazz);
+                return ServerResponse.Success(clazz);
             }
-            classService.saveOrUpdateClass(clazz);
-            return ServerResponse.Success(clazz);
-        }
     }
 
     @PostMapping("updateClass")
@@ -142,6 +142,8 @@ public class ClassController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!classService.isExistClassId(id)){
             return ServerResponse.ErrorMessage("类别不存在");
+        }else if(goodsService.isExistClass(id)) {
+            return ServerResponse.ErrorMessage("该类下存在货物无法删除");
         }else if(classService.deleteClassById(id)){
             return ServerResponse.Success(classService.selectClass());
         }else {

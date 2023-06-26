@@ -10,7 +10,9 @@ import team.sxcoding.Entity.Warehouse;
 import team.sxcoding.Mapper.WarehouseMapper;
 import team.sxcoding.Service.WarehouseService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("WarehouseService")
 public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse> implements WarehouseService {
@@ -61,10 +63,7 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
         return getById(id);
     }
 
-    @Override
-    public Warehouse selectWarehouseByName(String name){
-        return getOne(new QueryWrapper<Warehouse>().eq("name",name));
-    }
+
 
 
 }

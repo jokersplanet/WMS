@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Entity.Warehouse;
+import team.sxcoding.Service.GoodsService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,9 @@ public class WarehouseController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private GoodsService goodsService;
 
 
     /*查询所有仓库*/
@@ -84,10 +88,9 @@ public class WarehouseController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(warehouseService.isExistWarehouseName(warehouse.getName())){
             return ServerResponse.ErrorMessage("仓库名重复");
-        }else if(warehouseService.saveOrUpdateWarehouse(warehouse)){
-                return ServerResponse.Success(warehouse);
         }else{
-            return ServerResponse.ErrorMessage("操作失败");
+            warehouseService.saveOrUpdateWarehouse(warehouse);
+            return ServerResponse.Success();
         }
     }
 
@@ -109,7 +112,7 @@ public class WarehouseController {
             }
         }
 
-        if(!isAdmin(claims)){
+        if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
 
@@ -150,6 +153,8 @@ public class WarehouseController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!warehouseService.isExistWarehouse(id)){
             return ServerResponse.ErrorMessage("仓库不存在");
+        }else if(goodsService.isExistWarehouse(id)) {
+            return ServerResponse.ErrorMessage("该类下存在货物无法删除");
         }else if(warehouseService.deleteWarehouse(id)){
             return ServerResponse.Success(warehouseService.selectWarehouse());
         }else{

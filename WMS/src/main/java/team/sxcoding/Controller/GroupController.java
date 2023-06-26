@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
 import team.sxcoding.Entity.Group;
 import team.sxcoding.Service.ClassService;
+import team.sxcoding.Service.GoodsService;
 import team.sxcoding.Service.GroupService;
 import team.sxcoding.Service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.List;
 
 import static team.sxcoding.Utils.PermissionUtil.*;
 
@@ -30,6 +30,9 @@ public class GroupController {
 
     @Autowired
     private ClassService classService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     /*查询类别*/
     @GetMapping("getGroup")
@@ -78,10 +81,9 @@ public class GroupController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(groupService.isExistGroupName(group.getName())) {
             return ServerResponse.ErrorMessage("类别名重复");
-        }else if(groupService.insertGroup(group)){
-            return ServerResponse.Success(group);
         }else {
-            return ServerResponse.ErrorMessage("操作失败");
+            groupService.insertGroup(group);
+            return ServerResponse.Success();
         }
     }
 
@@ -112,6 +114,8 @@ public class GroupController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(!groupService.isExistGroupId(id)){
             return ServerResponse.ErrorMessage("类别不存在");
+        }else if(goodsService.isExistGroup(id)) {
+            return ServerResponse.ErrorMessage("该类下存在货物无法删除");
         }else if(classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id) || !classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id)){
             return ServerResponse.Success(groupService.selectGroups());
         }else {
