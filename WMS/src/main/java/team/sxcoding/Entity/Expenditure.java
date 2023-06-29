@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @TableName("expenditure")
@@ -16,7 +17,7 @@ public class Expenditure {
     private String recordUid;
 
     @TableField("time")
-    private String time;
+    private LocalDateTime time;
 
     @TableField("value")
     private BigDecimal value;

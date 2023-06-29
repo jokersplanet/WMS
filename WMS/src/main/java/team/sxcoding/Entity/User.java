@@ -46,6 +46,9 @@ public class User {
     @TableField("duties")
     private String duties;
 
+    @TableField(exist = false)
+    private String name;
+
 
 }
 

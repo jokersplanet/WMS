@@ -18,23 +18,23 @@ public interface GoodsService extends IService<Goods> {
     boolean isExistUnity(Integer uid);
 
 
-    IPage<Goods> selectGoods(Goods goods,Integer page,Integer count);
+    IPage<Goods> selectGoods(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid , Integer page, Integer count);
 
-    IPage<Goods> selectGoodsByInboundTime(Goods goods, LocalDateTime start, LocalDateTime end,Integer page,Integer count);
+    IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start, LocalDateTime end,Integer page,Integer count);
 
-    IPage<Goods> selectGoodsByOutboundTime(Goods goods, LocalDateTime start,LocalDateTime end,Integer page,Integer count);
+    IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start,LocalDateTime end,Integer page,Integer count);
 
-
+    boolean isExistGoodsByName(Goods goods);
 
     boolean saveOrUpdateGoods(Goods goods);
 
-    boolean isExistGoods(String uid);
+    boolean isExistGoods(Integer uid);
 
-    boolean deleteGoodsById(String uid);
+    boolean deleteGoodsById(Integer uid);
 
     List<Goods> selectGoods();
 
-    Goods selectGoodsById(String uid);
+    Goods selectGoodsById(Integer uid);
 
 
 

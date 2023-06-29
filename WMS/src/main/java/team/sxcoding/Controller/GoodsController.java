@@ -39,7 +39,7 @@ public class GoodsController {
     private UnitService unitService;
 
     @GetMapping("getGoods")
-    public ServerResponse getGoods(@RequestBody Goods goods, Integer page, Integer count) {
+    public ServerResponse getGoods(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid , Integer page, Integer count) {
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()) {
@@ -55,12 +55,12 @@ public class GoodsController {
             }
         }
 
-        return ServerResponse.Success("查询成功", goodsService.selectGoods(goods, page, count));
+        return ServerResponse.Success("查询成功", goodsService.selectGoods(uid,name,classUid,groupUid,warehouseUid, page, count));
     }
 
 
     @GetMapping("getGoodsByInboundTime")
-    public ServerResponse getGoodsByInboundTime(Goods goods, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
+    public ServerResponse getGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()) {
@@ -75,12 +75,11 @@ public class GoodsController {
                 return ServerResponse.NeedLogin();
             }
         }
-
-        return ServerResponse.Success("查询成功", goodsService.selectGoodsByInboundTime(goods, start, end, page, count));
+        return ServerResponse.Success("查询成功", goodsService.selectGoodsByInboundTime(uid,name,classUid,groupUid,warehouseUid, start, end, page, count));
     }
 
     @GetMapping("getGoodsByOutboundTime")
-    public ServerResponse getGoodsByOutboundTime(Goods goods, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
+    public ServerResponse getGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()) {
@@ -96,7 +95,7 @@ public class GoodsController {
             }
         }
 
-        return ServerResponse.Success("查询成功", goodsService.selectGoodsByOutboundTime(goods, start, end, page, count));
+        return ServerResponse.Success("查询成功", goodsService.selectGoodsByOutboundTime(uid,name,classUid,groupUid,warehouseUid, start, end, page, count));
     }
 
     @PostMapping("insertGoods")
@@ -124,15 +123,17 @@ public class GoodsController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         } else if (!(groupService.isExistGroupId(goods.getGroupUid()) && classService.isExistClassId(goods.getClassUid()) && unitService.isExistUnitId(goods.getUnitUid()) && warehouseService.isExistWarehouse(goods.getWarehouseUid()))) {
             return ServerResponse.ErrorMessage("部分数据不存在");
-        } else {
-            goodsService.saveOrUpdateGoods(goods);
-            return ServerResponse.Success();
+        }else if(goodsService.isExistGoodsByName(goods)){
+            return ServerResponse.ErrorMessage("该仓库中存在该商品");
+        }else{
+                goodsService.saveOrUpdateGoods(goods);
+                return ServerResponse.Success();
         }
     }
 
 
     @GetMapping("deleteGoods")
-    public ServerResponse deleteGoods(String uid){
+    public ServerResponse deleteGoods(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){

@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Data
 @TableName("outbound_records")
 public class OutboundRecords {
@@ -14,7 +16,7 @@ public class OutboundRecords {
     private String uid;
 
     @TableField("time")
-    private String time;
+    private LocalDateTime time;
 
     @TableField("goods_uid")
     private String goodsUid;
