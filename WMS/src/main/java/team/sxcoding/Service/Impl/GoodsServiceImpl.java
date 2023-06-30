@@ -51,20 +51,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-<<<<<<< HEAD
     public IPage<Goods> selectGoods(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid , Integer page, Integer count){
         return baseMapper.selectPage(new Page<>(page,count),uid,name,classUid,groupUid,warehouseUid);
-=======
-    public IPage<Goods> selectGoods(Goods goods,Integer page,Integer count){
-        return baseMapper.selectPage(new Page<>(page,count),goods);
->>>>>>> 48af4c45d6dd5f2d8f1b0a5d4aa721ff1e11cdc3
     }
 
 
 
 
     @Override
-<<<<<<< HEAD
+
     public IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start, LocalDateTime end,Integer page,Integer count){
         return baseMapper.selectPageByInboundTime(new Page<>(page,count),uid,name,classUid,groupUid,warehouseUid,start,end);
     }
@@ -72,15 +67,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Override
     public IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start,LocalDateTime end,Integer page,Integer count){
         return baseMapper.selectPageByOutboundTime(new Page<>(page,count),uid,name,classUid,groupUid,warehouseUid,start,end);
-=======
-    public IPage<Goods> selectGoodsByInboundTime(Goods goods, LocalDateTime start, LocalDateTime end,Integer page,Integer count){
-        return baseMapper.selectPageByInboundTime(new Page<>(page,count),goods,start,end);
-    }
-
-    @Override
-    public IPage<Goods> selectGoodsByOutboundTime(Goods goods, LocalDateTime start,LocalDateTime end,Integer page,Integer count){
-        return baseMapper.selectPageByOutboundTime(new Page<>(page,count),goods,start,end);
->>>>>>> 48af4c45d6dd5f2d8f1b0a5d4aa721ff1e11cdc3
     }
 
 
@@ -90,11 +76,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-<<<<<<< HEAD
     public boolean isExistGoods(Integer uid){
-=======
-    public boolean isExistGoods(String uid){
->>>>>>> 48af4c45d6dd5f2d8f1b0a5d4aa721ff1e11cdc3
+
         if(count(new QueryWrapper<Goods>().eq("uid",uid))>0){
             return true;
         }
@@ -102,11 +85,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-<<<<<<< HEAD
     public boolean deleteGoodsById(Integer uid){
-=======
-    public boolean deleteGoodsById(String uid){
->>>>>>> 48af4c45d6dd5f2d8f1b0a5d4aa721ff1e11cdc3
         return removeById(uid);
     }
 
@@ -116,7 +95,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-<<<<<<< HEAD
     public Goods selectGoodsById(Integer uid){
         return getOne(new QueryWrapper<Goods>().eq("uid",uid));
     }
@@ -128,9 +106,4 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
         return false;
     }
-=======
-    public Goods selectGoodsById(String uid){
-        return getOne(new QueryWrapper<Goods>().eq("uid",uid));
-    }
->>>>>>> 48af4c45d6dd5f2d8f1b0a5d4aa721ff1e11cdc3
 }
