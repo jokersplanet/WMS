@@ -7,14 +7,14 @@ import java.util.List;
 public interface UnitService extends IService<Unit> {
 
     /*判断unit是否存在*/
-    boolean isExistUnitId(Integer id);
+    boolean isExistUnitId(Integer uid);
 
     boolean isExistUnitName(String name);
 
     /*查询单位*/
     List<Unit> selectUnits();
 
-    Unit selectUnitById(Integer id);
+    Unit selectUnitById(Integer uid);
 
     Unit selectUnitByName(String name);
 
@@ -22,7 +22,7 @@ public interface UnitService extends IService<Unit> {
     boolean saveOrUpdateUnit(Unit unit);
 
     /*删除单位*/
-    boolean deleteUnitById(Integer id);
+    boolean deleteUnitById(Integer uid);
 
 
 

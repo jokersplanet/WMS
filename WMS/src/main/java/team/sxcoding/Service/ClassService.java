@@ -8,12 +8,12 @@ import java.util.List;
 public interface ClassService extends IService<Class> {
 
     /*判断class是否重复*/
-    boolean isExistClassId(Integer id);
+    boolean isExistClassId(Integer uid);
 
     boolean isExistClassName(String name,Integer groupId);
 
 
-    Class  selectClassById(Integer id);
+    Class  selectClassById(Integer uid);
 
     /*查询类别*/
     List<Class> selectClassByGroupId(Integer groupId);
@@ -22,7 +22,7 @@ public interface ClassService extends IService<Class> {
     ;
 
     /*删除类别*/
-    boolean deleteClassById(Integer id);
+    boolean deleteClassById(Integer uid);
 
     /*增加或者修改类别*/
     boolean saveOrUpdateClass(Class clazz);

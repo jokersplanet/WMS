@@ -90,7 +90,7 @@ public class GroupController {
     /*删除类别*/
     /*判断大类别下小类别，如果有小类别需要先删除所有小类别*/
     @GetMapping("deleteGroupById")
-    public ServerResponse deleteGroupById(Integer id){
+    public ServerResponse deleteGroupById(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -110,13 +110,13 @@ public class GroupController {
             return ServerResponse.Forbidden();
         }
 
-        if( id == null){
+        if( uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!groupService.isExistGroupId(id)){
+        }else if(!groupService.isExistGroupId(uid)){
             return ServerResponse.ErrorMessage("类别不存在");
-        }else if(goodsService.isExistGroup(id)) {
+        }else if(goodsService.isExistGroup(uid)) {
             return ServerResponse.ErrorMessage("该类下存在货物无法删除");
-        }else if(classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id) || !classService.deleteClassByGroupId(id) && groupService.deleteGroupById(id)){
+        }else if(classService.deleteClassByGroupId(uid) && groupService.deleteGroupById(uid) || !classService.deleteClassByGroupId(uid) && groupService.deleteGroupById(uid)){
             return ServerResponse.Success(groupService.selectGroups());
         }else {
             return ServerResponse.ErrorMessage("操作失败");

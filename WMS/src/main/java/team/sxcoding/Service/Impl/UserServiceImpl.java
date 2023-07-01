@@ -15,7 +15,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /*用户登录功能*/
     @Override
     public boolean login(User user){
-        if(baseMapper.selectOne(new QueryWrapper<User>().select("password").eq("uid",user.getUid())).equals(user.getPassword())){
+        if(count(new QueryWrapper<User>().eq("password",user.getPassword()).eq("uid",user.getUid()))>0){
             return true;
         }
         return false;

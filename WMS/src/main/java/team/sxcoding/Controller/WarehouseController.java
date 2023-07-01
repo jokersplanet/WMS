@@ -129,7 +129,7 @@ public class WarehouseController {
 
     /*删除仓库*/
     @GetMapping("deleteWarehouseById")
-    public ServerResponse deleteWarehouseById(Integer id){
+    public ServerResponse deleteWarehouseById(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -149,13 +149,13 @@ public class WarehouseController {
             return ServerResponse.Forbidden();
         }
 
-        if(id == null){
+        if(uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!warehouseService.isExistWarehouse(id)){
+        }else if(!warehouseService.isExistWarehouse(uid)){
             return ServerResponse.ErrorMessage("仓库不存在");
-        }else if(goodsService.isExistWarehouse(id)) {
+        }else if(goodsService.isExistWarehouse(uid)) {
             return ServerResponse.ErrorMessage("该类下存在货物无法删除");
-        }else if(warehouseService.deleteWarehouse(id)){
+        }else if(warehouseService.deleteWarehouse(uid)){
             return ServerResponse.Success(warehouseService.selectWarehouse());
         }else{
             return ServerResponse.ErrorMessage("操作失败");

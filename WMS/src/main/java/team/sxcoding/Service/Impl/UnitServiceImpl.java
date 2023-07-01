@@ -15,8 +15,8 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
 
     /*判断Unit是否存在*/
     @Override
-    public boolean isExistUnitId(Integer id){
-        if(count(new QueryWrapper<Unit>().eq("id",id))>0){
+    public boolean isExistUnitId(Integer uid){
+        if(count(new QueryWrapper<Unit>().eq("uid",uid))>0){
             return true;
         }
         return false;
@@ -31,8 +31,8 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
     }
 
     @Override
-    public Unit selectUnitById(Integer id){
-        return getById(id);
+    public Unit selectUnitById(Integer uid){
+        return getOne(new QueryWrapper<Unit>().eq("uid",uid));
     }
 
     @Override
@@ -55,8 +55,8 @@ public class UnitServiceImpl extends ServiceImpl<UnitMapper, Unit> implements Un
 
     /*删除单位*/
     @Override
-    public boolean deleteUnitById(Integer id){
-        return removeById(id);
+    public boolean deleteUnitById(Integer uid){
+        return remove(new QueryWrapper<Unit>().eq("uid",uid));
     }
 
 

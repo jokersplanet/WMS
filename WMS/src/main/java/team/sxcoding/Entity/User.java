@@ -32,7 +32,7 @@ public class User {
     private String privilege;
 
     @TableField("birthday")
-    private Date birthday;
+    private String birthday;
 
     @TableField("department")
     private Integer department;

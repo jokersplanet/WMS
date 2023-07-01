@@ -86,7 +86,7 @@ public class UnitController {
 
     /*删除单位*/
     @GetMapping("deleteUnitById")
-    public ServerResponse deleteUnitById(Integer id){
+    public ServerResponse deleteUnitById(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -105,13 +105,13 @@ public class UnitController {
             return ServerResponse.Forbidden();
         }
 
-        if( id == null){
+        if( uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!unitService.isExistUnitId(id)){
+        }else if(!unitService.isExistUnitId(uid)){
             return ServerResponse.ErrorMessage("单位不存在");
-        }else if(goodsService.isExistUnity(id)) {
+        }else if(goodsService.isExistUnity(uid)) {
             return ServerResponse.ErrorMessage("该类下存在货物无法删除");
-        }else if(unitService.deleteUnitById(id)){
+        }else if(unitService.deleteUnitById(uid)){
             return ServerResponse.Success(unitService.selectUnits());
         }else {
             return ServerResponse.ErrorMessage("操作失败");

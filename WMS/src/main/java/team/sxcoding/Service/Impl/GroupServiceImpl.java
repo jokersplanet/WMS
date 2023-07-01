@@ -15,8 +15,8 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
 
     /*判断group是否存在*/
     @Override
-    public boolean isExistGroupId(Integer id){
-        if(baseMapper.isExistGroupId(id)>0){
+    public boolean isExistGroupId(Integer uid){
+        if(baseMapper.isExistGroupId(uid)>0){
             return true;
         }
         return false;
@@ -31,8 +31,8 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     }
 
     @Override
-    public Group  selectGroupById(Integer id){
-        return baseMapper.selectGroupById(id);
+    public Group  selectGroupById(Integer uid){
+        return baseMapper.selectGroupById(uid);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
 
     /*删除类别*/
     @Override
-    public boolean deleteGroupById(Integer id){
-       return baseMapper.deleteGroupById(id);
+    public boolean deleteGroupById(Integer uid){
+       return baseMapper.deleteGroupById(uid);
     }
 
     /*修改类别*/

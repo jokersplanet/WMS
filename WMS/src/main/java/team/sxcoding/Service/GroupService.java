@@ -8,11 +8,11 @@ import java.util.List;
 public interface GroupService extends IService<Group> {
 
     /*判断group是否存在*/
-    boolean isExistGroupId(Integer id);
+    boolean isExistGroupId(Integer uid);
 
     boolean isExistGroupName(String name);
 
-    Group  selectGroupById(Integer id);
+    Group  selectGroupById(Integer uid);
 
     Group selectGroupByName(String name);
 
@@ -24,7 +24,7 @@ public interface GroupService extends IService<Group> {
     boolean insertGroup(Group group);
 
     /*删除类别*/
-    boolean deleteGroupById(Integer id);
+    boolean deleteGroupById(Integer uid);
 
     /*修改类别*/
     boolean updateGroupById(Group group);

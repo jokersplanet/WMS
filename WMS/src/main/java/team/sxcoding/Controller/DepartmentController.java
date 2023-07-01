@@ -124,7 +124,7 @@ public class DepartmentController {
 
     /*删除部门*/
     @GetMapping("deleteDepartment")
-    public ServerResponse<List<Department>> deleteDepartment(Integer id){
+    public ServerResponse<List<Department>> deleteDepartment(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -144,13 +144,13 @@ public class DepartmentController {
             return ServerResponse.Forbidden();
         }
 
-        if(id == null){
+        if(uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!departmentService.isExistDepartment(id)){
+        }else if(!departmentService.isExistDepartment(uid)){
             return ServerResponse.ErrorMessage("部门不存在");
-        }else if(userService.isExistDepartment(id)){
+        }else if(userService.isExistDepartment(uid)){
             return ServerResponse.ErrorMessage("部门下存在用户无法删除");
-        } else if(departmentService.deleteDepartment(id)){
+        } else if(departmentService.deleteDepartment(uid)){
             return ServerResponse.Success(departmentService.selectDepartment());
         }else{
             return ServerResponse.ErrorMessage("操作失败");

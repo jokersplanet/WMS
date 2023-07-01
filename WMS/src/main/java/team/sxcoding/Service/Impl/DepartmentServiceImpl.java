@@ -17,8 +17,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     /* 判断部门是否存在*/
     @Override
-    public boolean isExistDepartment(Integer id){
-        if(count(new QueryWrapper<Department>().eq("id",id))>0){
+    public boolean isExistDepartment(Integer uid){
+        if(count(new QueryWrapper<Department>().eq("uid",uid))>0){
             return true;
         }
         return false;
@@ -39,7 +39,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     @Override
     public Department selectDepartmentById(Integer uid){
-        return getById(uid);
+        return getOne(new QueryWrapper<Department>().eq("uid",uid));
     }
 
     /*列出部门*/
@@ -62,8 +62,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 
     /*删除部门*/
     @Override
-    public boolean deleteDepartment(Integer id){
-        return remove(new QueryWrapper<Department>().eq("id",id));
+    public boolean deleteDepartment(Integer uid){
+        return remove(new QueryWrapper<Department>().eq("uid",uid));
     }
 
 

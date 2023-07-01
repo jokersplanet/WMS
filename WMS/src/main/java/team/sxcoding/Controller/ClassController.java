@@ -34,7 +34,7 @@ public class ClassController {
     private GoodsService goodsService;
 
     @GetMapping("getClassByGroupId")
-    public ServerResponse getClassByGroupId(Integer groupid){
+    public ServerResponse getClassByGroupId(Integer groupId){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -50,7 +50,10 @@ public class ClassController {
             }
         }
 
-        return ServerResponse.Success("查询成功", classService.selectClassByGroupId(groupid));
+        if(groupId == null){
+            return ServerResponse.ErrorMessage("必填字段未填写");
+        }
+        return ServerResponse.Success("查询成功", classService.selectClassByGroupId(groupId));
     }
 
 
@@ -120,7 +123,7 @@ public class ClassController {
     }
 
     @GetMapping("deleteClassById")
-    public ServerResponse deleteClass(Integer id){
+    public ServerResponse deleteClass(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -138,13 +141,13 @@ public class ClassController {
         if(!isWarehousekeeper(claims)){
             return ServerResponse.Forbidden();
         }
-        if( id == null ){
+        if( uid == null ){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!classService.isExistClassId(id)){
+        }else if(!classService.isExistClassId(uid)){
             return ServerResponse.ErrorMessage("类别不存在");
-        }else if(goodsService.isExistClass(id)) {
+        }else if(goodsService.isExistClass(uid)) {
             return ServerResponse.ErrorMessage("该类下存在货物无法删除");
-        }else if(classService.deleteClassById(id)){
+        }else if(classService.deleteClassById(uid)){
             return ServerResponse.Success(classService.selectClass());
         }else {
             return ServerResponse.ErrorMessage("操作失败");

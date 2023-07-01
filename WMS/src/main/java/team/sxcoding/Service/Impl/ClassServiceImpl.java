@@ -19,8 +19,8 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
 
     /*判断class是否重复*/
     @Override
-    public  boolean isExistClassId(Integer id){
-        if(count(new QueryWrapper<Class>().eq("id",id))>0){
+    public  boolean isExistClassId(Integer uid){
+        if(count(new QueryWrapper<Class>().eq("uid",uid))>0){
             return true;
         }
         return false;
@@ -54,8 +54,8 @@ public class ClassServiceImpl extends ServiceImpl<ClassMapper, Class> implements
 
     /*删除类别*/
     @Override
-    public boolean deleteClassById(Integer id){
-        return removeById(id);
+    public boolean deleteClassById(Integer uid){
+        return remove(new QueryWrapper<Class>().eq("uid",uid));
     }
 
     /*增加或者修改类别*/

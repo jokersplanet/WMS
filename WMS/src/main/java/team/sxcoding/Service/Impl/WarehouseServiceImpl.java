@@ -20,8 +20,8 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
 
     /* 判断仓库是否存在*/
     @Override
-    public boolean isExistWarehouse(Integer id){
-        if(count(new QueryWrapper<Warehouse>().eq("id",id))>0){
+    public boolean isExistWarehouse(Integer uid){
+        if(count(new QueryWrapper<Warehouse>().eq("uid",uid))>0){
             return true;
         }
         return false;
@@ -49,8 +49,8 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
 
     /*删除仓库*/
     @Override
-    public boolean deleteWarehouse(Integer id){
-        return  removeById(id);
+    public boolean deleteWarehouse(Integer uid){
+        return  remove(new QueryWrapper<Warehouse>().eq("uid",uid));
     }
 
     @Override
@@ -59,8 +59,8 @@ public class WarehouseServiceImpl extends ServiceImpl<WarehouseMapper, Warehouse
     }
 
     @Override
-    public Warehouse selectWarehouseById(Integer id){
-        return getById(id);
+    public Warehouse selectWarehouseById(Integer uid){
+        return  getOne(new QueryWrapper<Warehouse>().eq("uid",uid));
     }
 
 

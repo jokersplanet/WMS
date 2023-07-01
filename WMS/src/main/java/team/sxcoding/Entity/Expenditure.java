@@ -17,7 +17,7 @@ public class Expenditure {
     private String recordUid;
 
     @TableField("time")
-    private LocalDateTime time;
+    private String time;
 
     @TableField("value")
     private BigDecimal value;

@@ -16,7 +16,7 @@ public class OutboundRecords {
     private String uid;
 
     @TableField("time")
-    private LocalDateTime time;
+    private String time;
 
     @TableField("goods_uid")
     private String goodsUid;

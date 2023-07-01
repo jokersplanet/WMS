@@ -9,7 +9,7 @@ import java.util.List;
 public interface WarehouseService extends IService<Warehouse> {
 
     /* 判断仓库是否存在*/
-    boolean isExistWarehouse(Integer id);
+    boolean isExistWarehouse(Integer uid);
 
     boolean isExistWarehouseName(String name);
 
@@ -18,7 +18,7 @@ public interface WarehouseService extends IService<Warehouse> {
 
     List<Warehouse> selectWarehouse();
 
-    Warehouse selectWarehouseById(Integer id);
+    Warehouse selectWarehouseById(Integer uid);
 
 
 
@@ -26,6 +26,6 @@ public interface WarehouseService extends IService<Warehouse> {
     boolean saveOrUpdateWarehouse(Warehouse warehouse);
 
     /*删除仓库*/
-    boolean deleteWarehouse(Integer id);
+    boolean deleteWarehouse(Integer uid);
 
 }

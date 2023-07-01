@@ -53,7 +53,7 @@ public interface UserService extends IService<User>{
     IPage<User> getUsersByUsername(String username,Integer page,Integer count);
 
     /*根据部门查询用户信息（模糊查询）*/
-    IPage<User> getUsersByDepartment(Integer id,Integer page,Integer count);
+    IPage<User> getUsersByDepartment(Integer uid,Integer page,Integer count);
 
     /*修改用户信息*/
     boolean updateUser(User user);
