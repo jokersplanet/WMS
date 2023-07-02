@@ -111,7 +111,7 @@ public class ClassController {
         }
         if(clazz.getUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!classService.isExistClassId(clazz.getUid()) || !groupService.isExistGroupId(clazz.getGroupId())){
+        }else if(!classService.isExistClassId(clazz.getUid())){
             return ServerResponse.ErrorMessage("类别不存在");
         }else if(classService.isExistClassName(clazz.getName(),clazz.getGroupId())){
             return ServerResponse.ErrorMessage("类别已存在");

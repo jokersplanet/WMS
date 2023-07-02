@@ -161,7 +161,7 @@ public class ScrapRecordsController {
         scrapRecords.setUsername(user.getUsername());
         scrapRecords.setUserNumber(user.getNumber());
 
-        if(scrapRecords.getTime() == null || scrapRecords.getGoodsName() == null || scrapRecords.getCount() == null || scrapRecords.getPrice() == null || scrapRecords.getUsername() == null || scrapRecords.getUserNumber() == null || scrapRecords.getValue() == null || scrapRecords.getWarehouseUid() == null || scrapRecords.getGoodsUid() == null){
+        if(scrapRecords.getName() == null || scrapRecords.getTime() == null || scrapRecords.getGoodsName() == null || scrapRecords.getCount() == null || scrapRecords.getPrice() == null || scrapRecords.getUsername() == null || scrapRecords.getUserNumber() == null || scrapRecords.getValue() == null || scrapRecords.getWarehouseUid() == null || scrapRecords.getGoodsUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(scrapRecordsService.saveOrUpdateScrapRecords(scrapRecords)){
             return ServerResponse.Success(scrapRecords);

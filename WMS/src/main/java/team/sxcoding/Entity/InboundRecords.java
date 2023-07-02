@@ -25,8 +25,8 @@ public class InboundRecords {
     @TableField("count")
     private Long count;
 
-    @TableField("notes")
-    private String notes;
+    @TableField("name")
+    private String name;
 
 
     @TableField("value")

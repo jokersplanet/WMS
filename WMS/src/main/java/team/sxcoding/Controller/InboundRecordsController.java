@@ -162,7 +162,7 @@ public class InboundRecordsController {
         inboundRecords.setUsername(user.getUsername());
         inboundRecords.setUserNumber(user.getNumber());
 
-        if(inboundRecords.getTime() == null || inboundRecords.getGoodsName() == null || inboundRecords.getCount() == null || inboundRecords.getPrice() == null || inboundRecords.getUsername() == null || inboundRecords.getUserNumber() == null || inboundRecords.getValue() == null || inboundRecords.getWarehouseUid() == null || inboundRecords.getGoodsUid() == null){
+        if(inboundRecords.getTime() == null || inboundRecords.getGoodsName() == null || inboundRecords.getCount() == null || inboundRecords.getPrice() == null || inboundRecords.getUsername() == null || inboundRecords.getUserNumber() == null || inboundRecords.getValue() == null || inboundRecords.getWarehouseUid() == null || inboundRecords.getGoodsUid() == null || inboundRecords.getName() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(inboundRecordsService.saveOrUpdateInboundRecords(inboundRecords)){
             return ServerResponse.Success(inboundRecords);
