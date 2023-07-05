@@ -134,7 +134,7 @@ public class GoodsController {
             return ServerResponse.ErrorMessage("该仓库中存在该商品");
         }else{
                 goodsService.saveOrUpdateGoods(goods);
-                return ServerResponse.Success();
+                return ServerResponse.Success(goodsService.selectGoods(goods.getUid(), goods.getName(),goods.getWarehouseUid(),goods.getGroupUid(),goods.getClassUid(),-1,0));
 
         }
     }
