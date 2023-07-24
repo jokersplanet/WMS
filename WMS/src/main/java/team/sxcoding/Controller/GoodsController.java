@@ -129,13 +129,11 @@ public class GoodsController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         } else if (!(groupService.isExistGroupId(goods.getGroupUid()) && classService.isExistClassId(goods.getClassUid()) && unitService.isExistUnitId(goods.getUnitUid()) && warehouseService.isExistWarehouse(goods.getWarehouseUid()))) {
             return ServerResponse.ErrorMessage("部分数据不存在");
-
         }else if(goodsService.isExistGoodsByName(goods)){
             return ServerResponse.ErrorMessage("该仓库中存在该商品");
         }else{
                 goodsService.saveOrUpdateGoods(goods);
-                return ServerResponse.Success(goodsService.selectGoods(goods.getUid(), goods.getName(),goods.getWarehouseUid(),goods.getGroupUid(),goods.getClassUid(),-1,0));
-
+                return ServerResponse.Success(goodsService.selectGoods(goods.getUid(), goods.getName(),goods.getWarehouseUid(),goods.getGroupUid(),goods.getClassUid(),0,-1));
         }
     }
 

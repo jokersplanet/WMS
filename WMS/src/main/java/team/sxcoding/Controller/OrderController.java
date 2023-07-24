@@ -5,20 +5,21 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import team.sxcoding.Config.ServerResponse;
-import team.sxcoding.Entity.Expenditure;
-import team.sxcoding.Service.ExpenditureService;
+import team.sxcoding.Entity.Order;
+import team.sxcoding.Service.OrderService;
+import team.sxcoding.Service.StatusService;
 import team.sxcoding.Service.UserService;
-
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.time.LocalDateTime;
+
 import static team.sxcoding.Utils.PermissionUtil.*;
+
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/expenditure")
-public class ExpenditureController {
+@RequestMapping("/order")
+public class OrderController {
 
     @Autowired
     private UserService userService;
@@ -26,14 +27,17 @@ public class ExpenditureController {
     private HttpServletRequest request;
 
     @Autowired
-    private ExpenditureService expenditureService;
+    private OrderService orderService;
 
-    /*查询所有支出*/
-    @GetMapping("getExpenditure")
-    public ServerResponse getExpenditure(Integer page ,Integer count) {
+    @Autowired
+    private StatusService statusService;
+
+
+    @GetMapping("getOrder")
+    public ServerResponse getOrder(Integer uid, String goodsName ,String status, Integer page, Integer count) {
         Claims claims = null;
         claims = getToken(request);
-        if (claims.isEmpty()){
+        if (claims.isEmpty()) {
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
@@ -41,38 +45,21 @@ public class ExpenditureController {
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
-            }else {
+            } else {
                 return ServerResponse.NeedLogin();
             }
         }
-        return ServerResponse.Success("查询成功", expenditureService.selectExpenditure(page,count));
+
+        return ServerResponse.Success("查询成功", orderService.selectOrder(uid,goodsName,status, page, count));
+
     }
 
 
-    @GetMapping("getExpenditureByTime")
-    public ServerResponse getExpenditureByTime(Integer page , Integer count, LocalDateTime startTime,LocalDateTime endTime){
+    @GetMapping("getOrderByTime")
+    public ServerResponse getOrderByTime(Integer uid, String goodsName,String status , String startTime, String endTime , Integer page, Integer count) {
         Claims claims = null;
         claims = getToken(request);
-        if (claims.isEmpty()){
-            return ServerResponse.NeedLoginMessage("请重新登录");
-        } else {
-            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
-                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
-                if (!isJwtLegal(claims, oldPrivilege)){
-                    return ServerResponse.NeedLoginMessage("请重新登录");
-                }
-            }else {
-                return ServerResponse.NeedLogin();
-            }
-        }
-        return ServerResponse.Success("查询成功", expenditureService.selectExpenditureByTime(page,count,startTime,endTime));
-    }
-
-    @PostMapping("updateExpenditure")
-    public ServerResponse updateExpenditure(@RequestBody Expenditure expenditure){
-        Claims claims = null;
-        claims = getToken(request);
-        if (claims.isEmpty()){
+        if (claims.isEmpty()) {
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
@@ -80,28 +67,45 @@ public class ExpenditureController {
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
-            }else {
+            } else {
                 return ServerResponse.NeedLogin();
             }
         }
 
-        if(!isWarehousekeeper(claims)){
-            return ServerResponse.Forbidden();
+        return ServerResponse.Success("查询成功",orderService.selectOrderByTime(uid,goodsName,status,startTime,endTime, page, count));
+    }
+
+
+    @PostMapping("insertOrder")
+    public ServerResponse insertOrder(@RequestBody Order order) {
+        Claims claims = null;
+        claims = getToken(request);
+        if (claims.isEmpty()) {
+            return ServerResponse.NeedLoginMessage("请重新登录");
+        } else {
+            if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
+                String oldPrivilege = userService.selectUserByUid(Integer.valueOf(claims.getId())).getPrivilege();
+                if (!isJwtLegal(claims, oldPrivilege)) {
+                    return ServerResponse.NeedLoginMessage("请重新登录");
+                }
+            } else {
+                return ServerResponse.NeedLogin();
+            }
         }
 
-        if(expenditure.getUid() == null){
+        if (order.getGoodsName() == null || order.getCount() == null || order.getPrice() == null || order.getValue() == null || order.getStatus() == null) {
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!expenditureService.isExistExpenditure(expenditure.getUid())){
-            return ServerResponse.ErrorMessage("记录不存在");
-        }else if(expenditureService.saveOrUpdateExpenditure(expenditure)){
-            return ServerResponse.Success(expenditureService.selectExpenditureById(expenditure.getUid()));
+        } else if (!statusService.isExistStatus(order.getStatus())){
+            return ServerResponse.ErrorMessage("部分数据不存在");
         }else{
-            return ServerResponse.ErrorMessage("操作失败");
+            orderService.saveOrUpdateOrder(order);
+            return ServerResponse.Success(orderService.selectOrderLimit());
         }
     }
 
-    @GetMapping("deleteExpenditure")
-    public ServerResponse deleteExpenditure(String uid){
+
+    @GetMapping("deleteOrder")
+    public ServerResponse deleteOrder(Integer uid){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -117,26 +121,27 @@ public class ExpenditureController {
             }
         }
 
-        if(!isWarehousekeeper(claims)){
+        if(!isAdmin(claims)){
             return ServerResponse.Forbidden();
         }
 
         if( uid == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!expenditureService.isExistExpenditure(uid)){
-            return ServerResponse.ErrorMessage("支出记录不存在");
-        }else if(expenditureService.deleteExpenditureById(uid)){
-            return ServerResponse.Success("删除成功",expenditureService.selectExpenditure());
+        }else if(!orderService.isExistOrder(uid)){
+            return ServerResponse.ErrorMessage("订单不存在");
+        }else if(orderService.deleteOrderById(uid)){
+            return ServerResponse.Success("删除成功",orderService.selectOrder(0,-1));
         }else{
             return ServerResponse.ErrorMessage("操作失败");
         }
     }
 
-    @PostMapping("insertExpenditure")
-    public ServerResponse insertExpenditure(@RequestBody Expenditure expenditure){
+
+    @PostMapping("updateOrder")
+    public ServerResponse updateOrder(@RequestBody Order order) {
         Claims claims = null;
         claims = getToken(request);
-        if (claims.isEmpty()){
+        if (claims.isEmpty()) {
             return ServerResponse.NeedLoginMessage("请重新登录");
         } else {
             if (userService.isExistUid(Integer.valueOf(claims.getId()))) {
@@ -144,25 +149,19 @@ public class ExpenditureController {
                 if (!isJwtLegal(claims, oldPrivilege)) {
                     return ServerResponse.NeedLoginMessage("请重新登录");
                 }
-            }else {
+            } else {
                 return ServerResponse.NeedLogin();
             }
         }
 
-        if(!isWarehousekeeper(claims)){
-            return ServerResponse.Forbidden();
-        }
-
-        if(expenditure.getTime() == null || expenditure.getValue() == null){
+        if (order.getUid() == null) {
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else{
-            //获取当天的上一个id，然后传入下一个id，开始更新操作最后返回更新后的数据
-               expenditure.setUid("L"+ expenditureService.getNextId());
-               expenditureService.saveOrUpdateExpenditure(expenditure);
-               return ServerResponse.Success(expenditure);
+        } else if (!orderService.isExistOrder(order.getUid())) {
+            return ServerResponse.ErrorMessage("订单不存在");
+        } else if (orderService.saveOrUpdateOrder(order)) {
+            return ServerResponse.Success(orderService.selectOrderById(order.getUid()));
+        } else {
+            return ServerResponse.ErrorMessage("操作失败");
         }
     }
-
-
-
 }
