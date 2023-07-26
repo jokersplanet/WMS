@@ -98,7 +98,7 @@ public class OrderController {
         } else if (!statusService.isExistStatus(order.getStatus())){
             return ServerResponse.ErrorMessage("部分数据不存在");
         }else{
-            orderService.saveOrUpdateOrder(order);
+            orderService.insertOrder(order);
             return ServerResponse.Success(orderService.selectOrderLimit());
         }
     }
@@ -158,7 +158,7 @@ public class OrderController {
             return ServerResponse.ErrorMessage("必填字段未填写");
         } else if (!orderService.isExistOrder(order.getUid())) {
             return ServerResponse.ErrorMessage("订单不存在");
-        } else if (orderService.saveOrUpdateOrder(order)) {
+        } else if (orderService.updateOrder(order)) {
             return ServerResponse.Success(orderService.selectOrderById(order.getUid()));
         } else {
             return ServerResponse.ErrorMessage("操作失败");

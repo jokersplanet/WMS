@@ -16,7 +16,7 @@ import java.util.List;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
     @Override
     public boolean isExistStatus(Integer uid) {
-        if(count(new QueryWrapper<Order>().eq("status",uid))>0){
+        if(baseMapper.isExistStatus(uid)>0){
             return true;
         }
         return false;
@@ -50,22 +50,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     public boolean deleteOrderById(Integer uid) {
-        return removeById(uid);
+        return baseMapper.deleteOrderById(uid);
     }
 
     @Override
     public boolean isExistOrder(Integer uid) {
-        if(count(new QueryWrapper<Order>().eq("uid",uid))>0){
+        if(baseMapper.isExistOrder(uid)>0){
             return true;
         }
         return false;
     }
 
-
+    @Override
+    public boolean updateOrder(Order order) {
+        return baseMapper.updateOrder(order);
+    }
 
     @Override
-    public boolean saveOrUpdateOrder(Order order) {
-        return saveOrUpdate(order);
+    public boolean insertOrder(Order order) {
+        return baseMapper.insertOrder(order);
     }
 
 

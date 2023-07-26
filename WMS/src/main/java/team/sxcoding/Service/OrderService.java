@@ -21,7 +21,9 @@ public interface OrderService extends IService<Order> {
 
     Order selectOrderLimit();
 
-    boolean saveOrUpdateOrder(Order order);
+    boolean updateOrder(Order order);
+
+    boolean insertOrder(Order order);
     IPage<Order> selectOrderByTime(Integer uid,String goodsName,String status, String startTime,String endTime,Integer page,Integer count);
 
 }
