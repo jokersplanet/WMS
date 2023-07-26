@@ -16,12 +16,12 @@ public class StatusServiceImpl extends ServiceImpl<StatusMapper, Status> impleme
 
     @Override
     public List<Status> selectStatus() {
-        return list();
+        return list(new QueryWrapper<Status>().orderByAsc("sequence"));
     }
 
     @Override
     public boolean isExistStatus(String status) {
-        if(count(new QueryWrapper<Status>().eq("status",status))>0){
+        if(count(new QueryWrapper<Status>().eq("name",status))>0){
             return true;
         }
         return false;

@@ -16,4 +16,7 @@ public class Status {
     @TableField("name")
     private String name;
 
+    @TableField("sequence")
+    private String sequence;
+
 }
