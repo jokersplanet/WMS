@@ -139,8 +139,8 @@ public class StatusController {
         }
         if(status.getName() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
-        }else if(!statusService.isExistStatus(status.getUid())){
-            return ServerResponse.ErrorMessage("状态不存在");
+        }else if(statusService.isExistStatus(status.getUid())){
+            return ServerResponse.ErrorMessage("状态已存在");
         }else if(statusService.saveOrUpdateStatus(status)){
             return ServerResponse.Success(status);
         }else {
