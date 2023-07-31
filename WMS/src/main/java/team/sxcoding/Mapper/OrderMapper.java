@@ -23,13 +23,13 @@ public interface OrderMapper extends BaseMapper<Order> {
     @Select("SELECT `order`.*, status.name AS name FROM `order` LEFT JOIN status ON `order`.status = status.uid ")
     IPage<Order> selectAllOrder(Page<Order> page);
 
-    @Select("SELECT `order`.*, status.name AS name FROM `order` LEFT JOIN status ON order.status = status.uid " +
+    @Select("SELECT `order`.*, status.name AS status_name FROM `order` LEFT JOIN status ON order.status = status.uid " +
             "WHERE 1 = 1 AND (`order`.uid = #{uid} OR #{uid} IS NULL) AND (`order`.status = #{status} OR #{status} IS NULL) AND (`order`.goods_name LIKE  '%' || #{name} || '%' OR #{name} IS NULL" +
             "AND (`order`.time BETWEEN #{startTime} AND #{endTime}  OR #{startTime} IS NULL OR #{endTime} IS NULL)")
     IPage<Order> selectOrderByTime(@Param("uid")Integer uid,@Param("name")String goodsName,@Param("status")String status,@Param("startTime")String startTime,@Param("endTime")String endTime,Page<Order> page);
 
 
-    @Select("SELECT `order`.*, status.name AS name FROM `order` LEFT JOIN status ON `order`.status = status.uid ORDER BY `order`.uid DESC LIMIT 1")
+    @Select("SELECT `order`.*, status.name AS status_name FROM `order` LEFT JOIN status ON `order`.status = status.uid ORDER BY `order`.uid DESC LIMIT 1")
     Order getLastestOrder();
 
     @Select("SELECT count(*) FROM `order` WHERE uid = #{uid}")

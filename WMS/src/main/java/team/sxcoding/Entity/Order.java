@@ -36,5 +36,5 @@ public class Order{
     private Integer status;
 
     @TableField(exist = false)
-    private String name;
+    private String statusName;
 }
