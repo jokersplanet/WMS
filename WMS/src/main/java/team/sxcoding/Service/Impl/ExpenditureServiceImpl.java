@@ -34,7 +34,7 @@ public class ExpenditureServiceImpl extends ServiceImpl<ExpenditureMapper, Expen
 
     /*根据时间查询支出*/
     @Override
-    public IPage<Expenditure> selectExpenditureByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public IPage<Expenditure> selectExpenditureByTime(Integer page, Integer count, String startTime, String endTime){
         return page(new Page<>(page, count),new QueryWrapper<Expenditure>().between("time",startTime,endTime));
     }
 

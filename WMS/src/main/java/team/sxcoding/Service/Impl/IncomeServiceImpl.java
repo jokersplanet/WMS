@@ -35,7 +35,7 @@ public class IncomeServiceImpl extends ServiceImpl<IncomeMapper, Income> impleme
 
     /*根据时间查询支出*/
     @Override
-    public IPage<Income> selectIncomeByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public IPage<Income> selectIncomeByTime(Integer page, Integer count, String startTime, String endTime){
         return page(new Page<>(page, count),new QueryWrapper<Income>().between("time",startTime,endTime));
     }
 

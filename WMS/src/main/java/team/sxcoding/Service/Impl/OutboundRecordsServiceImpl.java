@@ -30,7 +30,7 @@ public class OutboundRecordsServiceImpl extends ServiceImpl<OutboundRecordsMappe
 
     /*根据时间查询入库记录*/
     @Override
-    public IPage<OutboundRecords> selectOutboundRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public IPage<OutboundRecords> selectOutboundRecordsByTime(Integer page, Integer count, String startTime, String endTime){
         return page(new Page<>(page, count),new QueryWrapper<OutboundRecords>().between("time",startTime,endTime));
     }
 

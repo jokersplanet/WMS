@@ -16,7 +16,7 @@ public interface InboundRecordsService extends IService<InboundRecords> {
     List<InboundRecords> selectInboundRecords();
 
     /*根据时间查询入库记录*/
-    IPage<InboundRecords> selectInboundRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime);
+    IPage<InboundRecords> selectInboundRecordsByTime(Integer page, Integer count, String startTime, String endTime);
 
     /*入库记录是否存在*/
     boolean isExistInboundRecords(String uid);

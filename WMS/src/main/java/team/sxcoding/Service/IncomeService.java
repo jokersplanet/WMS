@@ -17,7 +17,7 @@ public interface IncomeService extends IService<Income> {
     List<Income> selectIncome();
 
     /*根据时间查询支出*/
-    IPage<Income> selectIncomeByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime);
+    IPage<Income> selectIncomeByTime(Integer page, Integer count, String startTime, String endTime);
 
     /*支出记录是否存在*/
     boolean isExistIncome(String uid);

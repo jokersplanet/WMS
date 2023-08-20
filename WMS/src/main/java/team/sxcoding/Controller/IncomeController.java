@@ -52,7 +52,7 @@ public class IncomeController {
 
 
     @GetMapping("getIncomeByTime")
-    public ServerResponse getIncomeByTime(Integer page , Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public ServerResponse getIncomeByTime(Integer page , Integer count, String startTime, String endTime){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){

@@ -20,9 +20,9 @@ public interface GoodsService extends IService<Goods> {
 
     IPage<Goods> selectGoods(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid , Integer page, Integer count);
 
-    IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start, LocalDateTime end,Integer page,Integer count);
+    IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, String start, String end,Integer page,Integer count);
 
-    IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start,LocalDateTime end,Integer page,Integer count);
+    IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, String start,String end,Integer page,Integer count);
 
     boolean isExistGoodsByName(Goods goods);
 

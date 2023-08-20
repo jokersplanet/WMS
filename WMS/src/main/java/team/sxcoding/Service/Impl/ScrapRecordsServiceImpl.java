@@ -29,7 +29,7 @@ public class ScrapRecordsServiceImpl extends ServiceImpl<ScrapRecordsMapper, Scr
 
     /*根据时间查询报废记录*/
     @Override
-    public IPage<ScrapRecords> selectScrapRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public IPage<ScrapRecords> selectScrapRecordsByTime(Integer page, Integer count, String startTime, String endTime){
         return page(new Page<>(page, count),new QueryWrapper<ScrapRecords>().between("time",startTime,endTime));
     }
 

@@ -62,7 +62,7 @@ public class GoodsController {
 
 
     @GetMapping("getGoodsByInboundTime")
-    public ServerResponse getGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
+    public ServerResponse getGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, String start, String end) {
 
         Claims claims = null;
         claims = getToken(request);
@@ -83,7 +83,7 @@ public class GoodsController {
     }
 
     @GetMapping("getGoodsByOutboundTime")
-    public ServerResponse getGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, LocalDateTime start, LocalDateTime end) {
+    public ServerResponse getGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, Integer page, Integer count, String start, String end) {
 
         Claims claims = null;
         claims = getToken(request);

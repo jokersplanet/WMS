@@ -16,7 +16,7 @@ public interface OutboundRecordsService extends IService<OutboundRecords> {
     List<OutboundRecords> selectOutboundRecords();
 
     /*根据时间查询出库记录*/
-    IPage<OutboundRecords> selectOutboundRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime);
+    IPage<OutboundRecords> selectOutboundRecordsByTime(Integer page, Integer count, String startTime, String endTime);
 
     /*出库记录是否存在*/
     boolean isExistOutboundRecords(String uid);

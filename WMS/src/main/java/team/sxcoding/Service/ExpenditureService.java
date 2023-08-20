@@ -16,7 +16,7 @@ public interface ExpenditureService extends IService<Expenditure> {
     List<Expenditure> selectExpenditure();
 
     /*根据时间查询支出*/
-    IPage<Expenditure> selectExpenditureByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime);
+    IPage<Expenditure> selectExpenditureByTime(Integer page, Integer count, String startTime, String endTime);
 
     /*支出记录是否存在*/
     boolean isExistExpenditure(String uid);

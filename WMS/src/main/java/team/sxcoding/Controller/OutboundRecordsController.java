@@ -52,7 +52,7 @@ public class OutboundRecordsController {
 
 
     @GetMapping("getOutboundRecordsByTime")
-    public ServerResponse getOutboundRecordsByTime(Integer page , Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public ServerResponse getOutboundRecordsByTime(Integer page , Integer count, String startTime, String endTime){
         Claims claims = null;
         claims = getToken(request);
         if (claims.isEmpty()){
@@ -160,7 +160,7 @@ public class OutboundRecordsController {
         outboundRecords.setUsername(user.getUsername());
         outboundRecords.setUserNumber(user.getNumber());
 
-        if(outboundRecords.getTime() == null || outboundRecords.getGoodsName() == null || outboundRecords.getCount() == null || outboundRecords.getPrice() == null || outboundRecords.getUsername() == null || outboundRecords.getUserNumber() == null || outboundRecords.getValue() == null || outboundRecords.getWarehouseUid() == null || outboundRecords.getGoodsUid() == null || outboundRecords.getName() == null){
+        if(outboundRecords.getTime() == null || outboundRecords.getGoodsName() == null || outboundRecords.getCount() == null || outboundRecords.getPrice() == null || outboundRecords.getUsername() == null || outboundRecords.getUserNumber() == null || outboundRecords.getValue() == null || outboundRecords.getWarehouseUid() == null || outboundRecords.getGoodsUid() == null){
             return ServerResponse.ErrorMessage("必填字段未填写");
         }else if(outboundRecordsService.saveOrUpdateOutboundRecords(outboundRecords)){
             return ServerResponse.Success(outboundRecords);

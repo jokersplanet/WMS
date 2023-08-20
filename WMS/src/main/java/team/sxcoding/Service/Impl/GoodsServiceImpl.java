@@ -60,12 +60,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
 
-    public IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start, LocalDateTime end,Integer page,Integer count){
+    public IPage<Goods> selectGoodsByInboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, String start, String end,Integer page,Integer count){
         return baseMapper.selectPageByInboundTime(new Page<>(page,count),uid,name,classUid,groupUid,warehouseUid,start,end);
     }
 
     @Override
-    public IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, LocalDateTime start,LocalDateTime end,Integer page,Integer count){
+    public IPage<Goods> selectGoodsByOutboundTime(Integer uid,String name ,Integer classUid, Integer groupUid ,Integer warehouseUid, String start,String end,Integer page,Integer count){
         return baseMapper.selectPageByOutboundTime(new Page<>(page,count),uid,name,classUid,groupUid,warehouseUid,start,end);
     }
 

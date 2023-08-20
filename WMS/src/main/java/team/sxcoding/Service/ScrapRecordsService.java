@@ -16,7 +16,7 @@ public interface ScrapRecordsService extends IService<ScrapRecords> {
     List<ScrapRecords> selectScrapRecords();
 
     /*根据时间查询报废记录*/
-    IPage<ScrapRecords> selectScrapRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime);
+    IPage<ScrapRecords> selectScrapRecordsByTime(Integer page, Integer count, String startTime, String endTime);
 
     /*报废记录是否存在*/
     boolean isExistScrapRecords(String uid);

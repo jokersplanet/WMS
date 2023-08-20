@@ -29,7 +29,7 @@ public class InboundRecordsServiceImpl extends ServiceImpl<InboundRecordsMapper,
 
     /*根据时间查询入库记录*/
     @Override
-    public IPage<InboundRecords> selectInboundRecordsByTime(Integer page, Integer count, LocalDateTime startTime, LocalDateTime endTime){
+    public IPage<InboundRecords> selectInboundRecordsByTime(Integer page, Integer count, String startTime, String endTime){
         return page(new Page<>(page, count),new QueryWrapper<InboundRecords>().between("time",startTime,endTime));
     }
 
