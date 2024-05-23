@@ -1,0 +1,30 @@
+export const options = [
+    {
+        label:'username',
+        prop:'username'
+    },
+    {
+        label:'gender',
+        prop:'gender'
+    },
+    {
+        label:'telephone',
+        prop:'telephone'
+    },
+    {
+        label:'department',
+        prop:'department'
+    },
+    {
+        label:'number',
+        prop:'number'
+    },
+    {
+        label:'uid',
+        prop:'uid'
+    },
+    {
+        label:'addresss',
+        prop:'address'
+    },  
+]
